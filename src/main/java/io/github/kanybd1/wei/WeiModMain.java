@@ -40,6 +40,7 @@ public class WeiModMain {
             Items.MACE
     );
     public static final Object2IntMap FORTRESS_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap();
+
     public WeiModMain(IEventBus modEventBus, ModContainer modContainer) {
         EffectRegister.EVENTS.register(modEventBus);
         FORTRESS_COVENANT_ITEM_VALUE.put(Items.STONE_SWORD, 1);

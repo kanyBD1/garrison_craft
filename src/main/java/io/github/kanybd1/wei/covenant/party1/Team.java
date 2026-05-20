@@ -1,0 +1,20 @@
+package io.github.kanybd1.wei.covenant.party1;
+
+import net.minecraft.server.level.ServerPlayer;
+
+public class Team {
+    private final TeamSlim data;
+
+    public Team(TeamSlim data) {
+        this.data = data;
+    }
+
+    public void addMember(ServerPlayer player) {
+    }
+
+    public void removeMember(ServerPlayer player) {
+    }
+
+    public void Leader(ServerPlayer player) {
+    }
+}
