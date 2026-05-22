@@ -1,4 +1,4 @@
-package io.github.kanybd1.wei.covenant.party1;
+package io.github.kanybd1.wei.covenant.party;
 
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
