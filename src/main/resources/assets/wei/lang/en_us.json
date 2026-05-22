@@ -1,0 +1,15 @@
+{
+  "itemGroup.wei": "Example Mod Tab",
+  "block.wei.example_block": "Example Block",
+  "item.wei.example_item": "Example Item",
+
+  "wei.configuration.title": "wei Configs",
+  "wei.configuration.section.wei.common.toml": "wei Configs",
+  "wei.configuration.section.wei.common.toml.title": "wei Configs",
+  "wei.configuration.items": "Item List",
+  "wei.configuration.logDirtBlock": "Log Dirt Block",
+  "wei.configuration.magicNumberIntroduction": "Magic Number Text",
+  "wei.configuration.magicNumber": "Magic Number",
+
+  "effect.wei.Covenant_Fortress": "堡垒"
+}
