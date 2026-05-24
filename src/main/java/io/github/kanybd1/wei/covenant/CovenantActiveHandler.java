@@ -3,6 +3,7 @@ package io.github.kanybd1.wei.covenant;
 import io.github.kanybd1.wei.WeiModMain;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +36,16 @@ public class CovenantActiveHandler {
             }
         }
         if (totalValue > 2) {
-            //这里我该怎么激活盟约
+            if(!player.hasEffect(EffectRegister.COVENANT_FORTRESS)){
+                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID());
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FORTRESS, 200, 999, false, false));
+            }
+        }
+        else{
+            if(player.hasEffect(EffectRegister.COVENANT_FORTRESS)) {
+                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID());
+                player.removeEffect(EffectRegister.COVENANT_FORTRESS);
+            }
         }
     }
 }

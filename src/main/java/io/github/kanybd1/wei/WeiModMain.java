@@ -1,6 +1,7 @@
 package io.github.kanybd1.wei;
 
 import com.mojang.logging.LogUtils;
+import io.github.kanybd1.wei.covenant.CovenantManager;
 import io.github.kanybd1.wei.covenant.EffectRegister;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -17,6 +18,7 @@ import java.util.Set;
 public class WeiModMain {
     public static final String MODID = "wei";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static final CovenantManager COVENANT_MANAGER = new CovenantManager();
     public static final Set<Item> FORTRESS_COVENANT_ITEMS = Set.of(
             Items.STONE_AXE,
             Items.STONE_SWORD,
@@ -39,9 +41,8 @@ public class WeiModMain {
             Items.SHIELD,
             Items.MACE
     );
-    public static final Object2IntMap FORTRESS_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap();
+    public static final Object2IntMap<Item> FORTRESS_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public WeiModMain(IEventBus modEventBus, ModContainer modContainer) {
-        EffectRegister.EVENTS.register(modEventBus);
         FORTRESS_COVENANT_ITEM_VALUE.put(Items.STONE_SWORD, 1);
         FORTRESS_COVENANT_ITEM_VALUE.put(Items.STONE_AXE, 1);
 

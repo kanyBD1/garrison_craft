@@ -173,3 +173,6 @@ idea {
         downloadJavadoc = true
     }
 }
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked"
+}
