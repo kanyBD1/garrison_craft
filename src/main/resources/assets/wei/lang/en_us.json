@@ -9,5 +9,7 @@
   "wei.configuration.items": "Item List",
   "wei.configuration.logDirtBlock": "Log Dirt Block",
   "wei.configuration.magicNumberIntroduction": "Magic Number Text",
-  "wei.configuration.magicNumber": "Magic Number"
+  "wei.configuration.magicNumber": "Magic Number",
+
+  "effect.wei.Covenant_Fortress": "堡垒"
 }
