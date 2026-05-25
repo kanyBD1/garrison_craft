@@ -38,7 +38,7 @@ public class CovenantActiveHandler {
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_FORTRESS)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID());
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FORTRESS, 200, 999, false, false));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FORTRESS, 200, 0, false, false));
             }
         }
         else{

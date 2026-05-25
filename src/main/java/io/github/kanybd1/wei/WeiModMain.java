@@ -3,13 +3,18 @@ package io.github.kanybd1.wei;
 import com.mojang.logging.LogUtils;
 import io.github.kanybd1.wei.covenant.CovenantManager;
 import io.github.kanybd1.wei.covenant.EffectRegister;
+import io.github.kanybd1.wei.covenant.StackComponent;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
 
 import java.util.Set;
@@ -17,8 +22,12 @@ import java.util.Set;
 @Mod(WeiModMain.MODID)
 public class WeiModMain {
     public static final String MODID = "wei";
+
     public static final Logger LOGGER = LogUtils.getLogger();
+
     public static final CovenantManager COVENANT_MANAGER = new CovenantManager();
+
+
     public static final Set<Item> FORTRESS_COVENANT_ITEMS = Set.of(
             Items.STONE_AXE,
             Items.STONE_SWORD,
@@ -65,6 +74,7 @@ public class WeiModMain {
        FORTRESS_COVENANT_ITEM_VALUE.put(Items.MACE, 1);
 
        EffectRegister.EVENTS.register(modEventBus);
+
 
     }
 }
