@@ -1,4 +1,4 @@
-package com.example.wei.covenant.party1;
+package io.github.kanybd1.wei.party1;
 
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
