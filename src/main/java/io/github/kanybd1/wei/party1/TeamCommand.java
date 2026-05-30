@@ -6,10 +6,14 @@ import io.github.kanybd1.wei.WeiModMain;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
+@EventBusSubscriber(modid = "wei")
 public class TeamCommand {
 
-    public void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
                 Commands.literal("create")
                         .then(Commands.literal("team")
@@ -69,6 +73,10 @@ public class TeamCommand {
                         })
                 )
         );
+    }
+    @SubscribeEvent
+    public static void onRegisterCommands(RegisterCommandsEvent event) {
+        register(event.getDispatcher());
     }
 
 }

@@ -1,5 +1,6 @@
 package io.github.kanybd1.wei.party1;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
@@ -39,7 +40,7 @@ public class TeamManager {
         UUID playerUUID=ServerPlayer.getUUID();
         Team team=teams.get(teamName);
         if(team==null){
-            System.out.println("队伍不存在: " +teamName);
+            ServerPlayer.sendSystemMessage(Component.literal("队伍不存在: " +teamName));
             return false;
         }
 
@@ -50,7 +51,7 @@ public class TeamManager {
         }
 
         else if(playerTeamName!=null&&playerTeamName.equals(teamName)){
-            System.out.println("已在此队伍："+teamName);
+            ServerPlayer.sendSystemMessage(Component.literal("已在此队伍："+teamName));
             return true;
         }
 
@@ -58,7 +59,7 @@ public class TeamManager {
 
         if(added){
             playerTeamMap.put(playerUUID,teamName);
-            System.out.println("成功加入此队伍："+teamName);
+            ServerPlayer.sendSystemMessage(Component.literal("成功加入此队伍："+teamName));
             return true;
         }
         return false;
@@ -72,7 +73,7 @@ public class TeamManager {
             Team team=teams.get(currentTeamId);
             if(team!=null){
                 teams.remove(player);
-                System.out.println("成功退出队伍："+currentTeamId);
+                player.sendSystemMessage(Component.literal("成功退出队伍："+currentTeamId));
                 return true;
             }
         }
