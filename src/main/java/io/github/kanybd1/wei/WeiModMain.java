@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import io.github.kanybd1.wei.covenant.CovenantManager;
 import io.github.kanybd1.wei.covenant.EffectRegister;
 
+import io.github.kanybd1.wei.party1.TeamCommand;
 import io.github.kanybd1.wei.party1.TeamManager;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -74,7 +75,6 @@ public class WeiModMain {
        FORTRESS_COVENANT_ITEM_VALUE.put(Items.MACE, 1);
 
        EffectRegister.EVENTS.register(modEventBus);
-
 
     }
 }
