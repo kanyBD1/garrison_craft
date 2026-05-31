@@ -1,13 +1,11 @@
 package io.github.kanybd1.wei.party1;
 
 import io.github.kanybd1.wei.WeiModMain;
-import io.github.kanybd1.wei.covenant.CovenantFortress;
+import io.github.kanybd1.wei.covenant.covenants.CovenantFortress;
 import io.github.kanybd1.wei.covenant.EffectRegister;
-import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import java.util.Set;
@@ -15,6 +13,8 @@ import java.util.UUID;
 
 @EventBusSubscriber(modid = "wei")
 public class TeamEvents {
+    private static int globalCountdownTicks = 0;
+    private static final int COOL_DOWN = 600;
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
 
@@ -22,7 +22,11 @@ public class TeamEvents {
         Player currentPlayer = event.getEntity();
 
         if (!currentPlayer.level().isClientSide() && currentPlayer.getUUID().equals(currentPlayer.level().players().get(0).getUUID())) {
-
+            globalCountdownTicks++;
+            if (globalCountdownTicks < COOL_DOWN) {
+                return;
+            }
+            globalCountdownTicks = 0;
             for (String teamName : Names) {
 
                 Set<UUID> members = WeiModMain.TEAM_MANAGER.getTeamMembers(teamName);
@@ -47,10 +51,7 @@ public class TeamEvents {
                         }
                     }
                 }
-
             }
         }
     }
-
-
 }

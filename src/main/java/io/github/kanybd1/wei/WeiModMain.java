@@ -4,7 +4,6 @@ import com.mojang.logging.LogUtils;
 import io.github.kanybd1.wei.covenant.CovenantManager;
 import io.github.kanybd1.wei.covenant.EffectRegister;
 
-import io.github.kanybd1.wei.party1.TeamCommand;
 import io.github.kanybd1.wei.party1.TeamManager;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -51,8 +50,29 @@ public class WeiModMain {
             Items.SHIELD,
             Items.MACE
     );
+
+    public static final Set<Item> END_COVENANT_ITEMS = Set.of(
+            Items.ENDER_EYE,
+            Items.ENDER_PEARL
+    );
+
+    public static final Set<Item> MINER_COVENANT_ITEMS = Set.of(
+            Items.IRON_PICKAXE,
+            Items.DIAMOND_PICKAXE,
+            Items.TNT,
+            Items.NETHERITE_PICKAXE,
+            Items.WATER_BUCKET,
+            Items.LAVA_BUCKET,
+            Items.BUCKET
+    );
+
     public static final Object2IntMap<Item> FORTRESS_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
+    public static final Object2IntMap<Item> END_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
+    public static final Object2IntMap<Item> MINER_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
+
     public WeiModMain(IEventBus modEventBus, ModContainer modContainer) {
+
+        //FORTRESS
         FORTRESS_COVENANT_ITEM_VALUE.put(Items.STONE_SWORD, 1);
         FORTRESS_COVENANT_ITEM_VALUE.put(Items.STONE_AXE, 1);
 
@@ -61,20 +81,35 @@ public class WeiModMain {
         FORTRESS_COVENANT_ITEM_VALUE.put(Items.IRON_LEGGINGS, 1);
         FORTRESS_COVENANT_ITEM_VALUE.put(Items.IRON_BOOTS, 1);
 
-       FORTRESS_COVENANT_ITEM_VALUE.put(Items.CHAINMAIL_BOOTS, 1);
-       FORTRESS_COVENANT_ITEM_VALUE.put(Items.CHAINMAIL_CHESTPLATE, 1);
-       FORTRESS_COVENANT_ITEM_VALUE.put(Items.CHAINMAIL_LEGGINGS, 1);
-       FORTRESS_COVENANT_ITEM_VALUE.put(Items.CHAINMAIL_HELMET, 1);
+        FORTRESS_COVENANT_ITEM_VALUE.put(Items.CHAINMAIL_BOOTS, 1);
+        FORTRESS_COVENANT_ITEM_VALUE.put(Items.CHAINMAIL_CHESTPLATE, 1);
+        FORTRESS_COVENANT_ITEM_VALUE.put(Items.CHAINMAIL_LEGGINGS, 1);
+        FORTRESS_COVENANT_ITEM_VALUE.put(Items.CHAINMAIL_HELMET, 1);
 
-       FORTRESS_COVENANT_ITEM_VALUE.put(Items.DIAMOND_BOOTS, 1);
-       FORTRESS_COVENANT_ITEM_VALUE.put(Items.DIAMOND_CHESTPLATE, 1);
-       FORTRESS_COVENANT_ITEM_VALUE.put(Items.DIAMOND_LEGGINGS, 1);
-       FORTRESS_COVENANT_ITEM_VALUE.put(Items.DIAMOND_HELMET, 1);
+        FORTRESS_COVENANT_ITEM_VALUE.put(Items.DIAMOND_BOOTS, 1);
+        FORTRESS_COVENANT_ITEM_VALUE.put(Items.DIAMOND_CHESTPLATE, 1);
+        FORTRESS_COVENANT_ITEM_VALUE.put(Items.DIAMOND_LEGGINGS, 1);
+        FORTRESS_COVENANT_ITEM_VALUE.put(Items.DIAMOND_HELMET, 1);
 
-       FORTRESS_COVENANT_ITEM_VALUE.put(Items.SHIELD, 1);
-       FORTRESS_COVENANT_ITEM_VALUE.put(Items.MACE, 1);
+        FORTRESS_COVENANT_ITEM_VALUE.put(Items.SHIELD, 1);
+        FORTRESS_COVENANT_ITEM_VALUE.put(Items.MACE, 1);
 
-       EffectRegister.EVENTS.register(modEventBus);
+
+        //END
+        END_COVENANT_ITEM_VALUE.put(Items.ENDER_EYE, 1);
+        END_COVENANT_ITEM_VALUE.put(Items.ENDER_PEARL, 1);
+
+        //MINER
+        MINER_COVENANT_ITEM_VALUE.put(Items.IRON_INGOT, 1);
+        MINER_COVENANT_ITEM_VALUE.put(Items.DIAMOND_PICKAXE, 1);
+        MINER_COVENANT_ITEM_VALUE.put(Items.TNT, 1);
+        MINER_COVENANT_ITEM_VALUE.put(Items.NETHERITE_PICKAXE, 1);
+        MINER_COVENANT_ITEM_VALUE.put(Items.BUCKET, 1);
+        MINER_COVENANT_ITEM_VALUE.put(Items.WATER_BUCKET, 1);
+        MINER_COVENANT_ITEM_VALUE.put(Items.LAVA_BUCKET, 1);
+
+
+        EffectRegister.EVENTS.register(modEventBus);
 
     }
 }
