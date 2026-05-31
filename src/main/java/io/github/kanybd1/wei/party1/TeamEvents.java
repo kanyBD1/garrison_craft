@@ -20,13 +20,20 @@ public class TeamEvents {
 
         Set<String> Names = WeiModMain.TEAM_MANAGER.getTeamNames();
         Player currentPlayer = event.getEntity();
+
         if (!currentPlayer.level().isClientSide() && currentPlayer.getUUID().equals(currentPlayer.level().players().get(0).getUUID())) {
+
             for (String teamName : Names) {
+
                 Set<UUID> members = WeiModMain.TEAM_MANAGER.getTeamMembers(teamName);
                 int value = 0;
+
                 for (UUID member : members) {
+
                     Player player = event.getEntity().level().getPlayerByUUID(member);
+
                     if (player != null) {
+
                         if (player.hasEffect(EffectRegister.COVENANT_FORTRESS)) {
                             value++;
                         }

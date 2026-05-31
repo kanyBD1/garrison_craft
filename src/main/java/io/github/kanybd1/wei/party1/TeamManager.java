@@ -20,12 +20,10 @@ public class TeamManager {
         Team newTeam = new Team(UUID.randomUUID(),teamName,ServerPlayer.getUUID());
         teams.put(teamName,newTeam);
         playerTeamMap.put(ServerPlayer.getUUID(),teamName);
+        ServerPlayer.sendSystemMessage(Component.literal("创建队伍: " +teamName));
         return newTeam;
     }
 
-    public void disbandTeam(ServerPlayer ServerPlayer){
-
-    }
 
     public Optional<Team> getPlayerTeam(ServerPlayer player){
         String teamId=playerTeamMap.get(player.getUUID());
@@ -35,6 +33,12 @@ public class TeamManager {
         Team team=teams.get(teamId);
         return Optional.ofNullable(team);
     }
+
+
+
+
+
+
 
     public Boolean addToTeam(ServerPlayer ServerPlayer,String teamName){
         UUID playerUUID=ServerPlayer.getUUID();
@@ -55,7 +59,7 @@ public class TeamManager {
             return true;
         }
 
-        boolean added = this.addToTeam(ServerPlayer,teamName);
+        boolean added = team.addMember(ServerPlayer);
 
         if(added){
             playerTeamMap.put(playerUUID,teamName);
@@ -65,20 +69,47 @@ public class TeamManager {
         return false;
     }
 
+
+
+
+
+
+
+
+
+
+
+
     public boolean removeFromTeam(ServerPlayer player){
         UUID playerUUID=player.getUUID();
-        String currentTeamId = this.playerTeamMap.remove(playerUUID);
+        String currentTeamName = this.playerTeamMap.remove(playerUUID);
 
-        if(currentTeamId!=null){
-            Team team=teams.get(currentTeamId);
+        if(currentTeamName !=null){
+            Team team=teams.get(currentTeamName);
             if(team!=null){
-                teams.remove(player);
-                player.sendSystemMessage(Component.literal("成功退出队伍："+currentTeamId));
+                team.removeMember(player);
+                player.sendSystemMessage(Component.literal("成功退出队伍："+ currentTeamName));
                 return true;
             }
         }
         return false;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public Set<String> getTeamNames(){
         return teams.keySet();
