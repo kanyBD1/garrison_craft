@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class CovenantManager{
+
+
     private final List<UUID> covenants = Lists.newArrayListWithCapacity(1);
 
     public void activeCovenant(UUID uuid) {
