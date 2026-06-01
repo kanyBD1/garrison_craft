@@ -24,7 +24,6 @@ public class TeamManager {
         return newTeam;
     }
 
-
     public Optional<Team> getPlayerTeam(ServerPlayer player){
         String teamId=playerTeamMap.get(player.getUUID());
         if(teamId==null) {
@@ -33,12 +32,6 @@ public class TeamManager {
         Team team=teams.get(teamId);
         return Optional.ofNullable(team);
     }
-
-
-
-
-
-
 
     public Boolean addToTeam(ServerPlayer ServerPlayer,String teamName){
         UUID playerUUID=ServerPlayer.getUUID();
@@ -69,17 +62,6 @@ public class TeamManager {
         return false;
     }
 
-
-
-
-
-
-
-
-
-
-
-
     public boolean removeFromTeam(ServerPlayer player){
         UUID playerUUID=player.getUUID();
         String currentTeamName = this.playerTeamMap.remove(playerUUID);
@@ -94,22 +76,6 @@ public class TeamManager {
         }
         return false;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public Set<String> getTeamNames(){
         return teams.keySet();
