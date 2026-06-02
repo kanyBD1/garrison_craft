@@ -8,6 +8,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
 import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
@@ -68,5 +69,11 @@ public class CovenantStackManager {
             return;
         }
         StacksHelper.addOceanStacks(player, 1);
+    }
+    @SubscribeEvent
+    public static void onPlayerLevelChange(PlayerXpEvent.LevelChange event){
+        Player player = event.getEntity();
+        if (!player.hasEffect(EffectRegister.COVENANT_MINER)) {return;}
+        StacksHelper.addMinerStacks(player, 10);
     }
 }

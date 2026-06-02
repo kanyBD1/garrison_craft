@@ -2,7 +2,6 @@ package io.github.kanybd1.wei.covenant.covenants;
 
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
-import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
 import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;

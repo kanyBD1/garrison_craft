@@ -6,6 +6,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import static io.github.kanybd1.wei.covenant.covenants.CovenantEnd.ActiveCovenantEnd;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantFortress.ActiveCovenantFortress;
+import static io.github.kanybd1.wei.covenant.covenants.CovenantKnowledge.ActiveCovenantKnowledge;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantMiner.ActiveCovenantMiner;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantOcean.ActiveCovenantOcean;
 
@@ -19,5 +20,6 @@ public class CovenantActiveHandler {
         ActiveCovenantEnd(event);
         ActiveCovenantMiner(event);
         ActiveCovenantOcean(event);
+        ActiveCovenantKnowledge(event);
     }
 }

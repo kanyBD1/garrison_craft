@@ -33,13 +33,22 @@ public class StacksHelper {
     }
 
     public static void addOceanStacks(Player player,int amount){
-        IStack stack = player.getData(StackAttachmentType.STACK_END.get());
+        IStack stack = player.getData(StackAttachmentType.STACK_OCEAN.get());
 
         stack.setStack(Math.max(stack.getMaxStackSize(), stack.getStack() + amount));
     }
     public static int getOceanStacks(Player player){
-        IStack stack = player.getData(StackAttachmentType.STACK_END.get());
+        IStack stack = player.getData(StackAttachmentType.STACK_OCEAN.get());
         return stack.getStack();
     }
 
+    public static void addKnowledgeStacks(Player player,int amount){
+        IStack stack = player.getData(StackAttachmentType.STACK_KNOWLEDGE.get());
+
+        stack.setStack(Math.max(stack.getMaxStackSize(), stack.getStack() + amount));
+    }
+    public static int getKnowledgeStacks(Player player){
+        IStack stack = player.getData(StackAttachmentType.STACK_KNOWLEDGE.get());
+        return stack.getStack();
+    }
 }

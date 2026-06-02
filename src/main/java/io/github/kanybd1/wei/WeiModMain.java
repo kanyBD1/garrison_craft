@@ -74,10 +74,16 @@ public class WeiModMain {
             Items.TURTLE_HELMET
     );
 
+    public static Set<Item> KNOWLEDGE_COVENANT_ITEMS = Set.of(
+            Items.BOOK,
+            Items.WRITABLE_BOOK
+    );
+
     public static Object2IntMap<Item> FORTRESS_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> END_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> MINER_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> OCEAN_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
+    public static Object2IntMap<Item> KNOWLEDGE_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
 
     public WeiModMain(IEventBus modEventBus, ModContainer modContainer) {
 
@@ -119,6 +125,9 @@ public class WeiModMain {
         OCEAN_COVENANT_ITEM_VALUE.put(Items.HEART_OF_THE_SEA, 1);
         OCEAN_COVENANT_ITEM_VALUE.put(Items.TURTLE_HELMET, 1);
         OCEAN_COVENANT_ITEM_VALUE.put(Items.NAUTILUS_SHELL, 1);
+
+        KNOWLEDGE_COVENANT_ITEM_VALUE.put(Items.BOOK, 1);
+        KNOWLEDGE_COVENANT_ITEM_VALUE.put(Items.WRITABLE_BOOK, 1);
 
 
         EffectRegister.EVENTS.register(modEventBus);

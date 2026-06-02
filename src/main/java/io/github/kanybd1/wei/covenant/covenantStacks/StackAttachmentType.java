@@ -38,4 +38,11 @@ public class StackAttachmentType {
                     .copyOnDeath()
                     .build()
             );
+
+    public static final Supplier<AttachmentType<IStack>> STACK_KNOWLEDGE =
+            ATTACHMENT_TYPES.register("knowledge_stack",()-> AttachmentType.<IStack>builder(()-> IStack.EMPTY)
+                    .serialize(IStack.CODEC)
+                    .copyOnDeath()
+                    .build()
+            );
 }
