@@ -44,13 +44,13 @@ public class CovenantFortress extends MobEffect {
         }
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_FORTRESS)){
-                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID());
+                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Fortress");
                 player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FORTRESS, 200, StacksHelper.getFortressStacks(player)));
             }
         }
         else{
             if(player.hasEffect(EffectRegister.COVENANT_FORTRESS)) {
-                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID());
+                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(),"Fortress");
                 player.removeEffect(EffectRegister.COVENANT_FORTRESS);
             }
         }

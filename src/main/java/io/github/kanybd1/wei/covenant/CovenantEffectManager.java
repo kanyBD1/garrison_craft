@@ -43,9 +43,9 @@ public class CovenantEffectManager {
         applySpeed(player);
     }
     @SubscribeEvent
-    public static void onPlayerTick(PlayerTickEvent event) {
+    public static void onPlayerTick(PlayerTickEvent.Pre event) {
         Player player = event.getEntity();
-        if (!player.hasEffect(EffectRegister.COVENANT_END)) {
+        if (!player.hasEffect(EffectRegister.COVENANT_MINER)) {
             return;
         }
         applyHaste(player);

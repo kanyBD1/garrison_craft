@@ -29,10 +29,10 @@ public interface IStack {
         public int getStack () {return stack;}
 
         @Override
-        public void setMaxStackSize ( int maxStackSize){}
+        public void setMaxStackSize ( int maxStackSize){this.maxStack = maxStackSize;}
 
         @Override
-        public void setStack ( int stack){}
+        public void setStack ( int stack){this.stack = stack;}
 
 
     }

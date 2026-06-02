@@ -1,29 +1,37 @@
 package io.github.kanybd1.wei.covenant;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class CovenantManager{
 
+    private static Set<UUID> activeCovenants;
+    private static Map<UUID,Set<String>> covenants = Maps.newHashMap();
 
-    private final List<UUID> covenants = Lists.newArrayListWithCapacity(1);
-
-    public void activeCovenant(UUID uuid) {
-        if (covenants.contains(uuid)) {
+    public void activeCovenant(UUID uuid, String covenantName) {
+        if(!covenants.containsKey(uuid)){
+            covenants.put(uuid,Sets.newHashSet());
+        }
+        if(covenants.get(uuid).contains(covenantName)){
             return;
         }
+        covenants.get(uuid).add(covenantName);
 
-        covenants.add(uuid);
+
     }
 
-    public void removeCovenant(UUID uuid) {
-        covenants.remove(uuid);
+    public void removeCovenant(UUID uuid, String covenantName) {
+       if(!covenants.containsKey(uuid)){
+           return;
+       }
+       if (!covenants.get(uuid).contains(covenantName)) {
+           return;
+       }
+       covenants.get(uuid).remove(covenantName);
     }
 
-    public ImmutableList<UUID> getCovenants() {
-        return ImmutableList.copyOf(covenants);
-    }
 }

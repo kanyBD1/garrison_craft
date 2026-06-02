@@ -15,5 +15,5 @@ public class EffectRegister {
 
     public static final DeferredHolder<MobEffect,MobEffect> COVENANT_END = EVENTS.register("end", CovenantEnd::new);
 
-    public static final DeferredHolder<MobEffect,MobEffect> COVENANT_MINER = EVENTS.register("end", CovenantMiner::new);
+    public static final DeferredHolder<MobEffect,MobEffect> COVENANT_MINER = EVENTS.register("miner", CovenantMiner::new);
 }

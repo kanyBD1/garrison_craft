@@ -12,7 +12,7 @@ public class StackAttachmentType {
             DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, WeiModMain.MODID);
 
     public static final Supplier<AttachmentType<IStack>> STACK_FORTRESS =
-            ATTACHMENT_TYPES.register("Fortress_stack",()-> AttachmentType.<IStack>builder(()-> IStack.EMPTY)
+            ATTACHMENT_TYPES.register("fortress_stack",()-> AttachmentType.<IStack>builder(()-> IStack.EMPTY)
                     .serialize(IStack.CODEC)
                     .copyOnDeath()
                     .build()
