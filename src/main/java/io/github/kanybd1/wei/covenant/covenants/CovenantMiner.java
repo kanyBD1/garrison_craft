@@ -16,7 +16,7 @@ public class CovenantMiner extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
     }
 
-    public static void applyHaste(Player player) {player.addEffect(new MobEffectInstance(MobEffects.HASTE, 200, 1));}
+    public static void applyHaste(Player player) {player.addEffect(new MobEffectInstance(MobEffects.HASTE, 200, 0));}
 
     public static void ActiveCovenantMiner(PlayerTickEvent.Post event){
         Player player = event.getEntity();

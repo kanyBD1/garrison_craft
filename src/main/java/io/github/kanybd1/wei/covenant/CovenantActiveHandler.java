@@ -17,5 +17,6 @@ public class CovenantActiveHandler {
         ActiveCovenantFortress(event);
         ActiveCovenantEnd(event);
         ActiveCovenantMiner(event);
+        ActiveCovenantFortress(event);
     }
 }

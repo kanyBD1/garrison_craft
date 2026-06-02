@@ -11,14 +11,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-public class CovenantEnd extends MobEffect {
-    public CovenantEnd() {
+
+public class CovenantForest extends MobEffect {
+    public CovenantForest() {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
     }
 
-    public static void applySpeed(Player player) {player.addEffect(new MobEffectInstance(MobEffects.SPEED, 200, 1));}
+    public static void applyJump(Player player) {player.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 200, 0));}
 
-    public static void ActiveCovenantEnd(PlayerTickEvent.Post event){
+    public static void ActiveCovenantFortress(PlayerTickEvent.Post event){
         Player player = event.getEntity();
         if (player.level().isClientSide()) {
             return;
@@ -26,26 +27,26 @@ public class CovenantEnd extends MobEffect {
         int totalValue = 0;
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
-            if (!stack.isEmpty() && WeiModMain.END_COVENANT_ITEMS.contains(stack.getItem())) {
-                totalValue += WeiModMain.END_COVENANT_ITEM_VALUE.getInt(stack.getItem());
+            if (!stack.isEmpty() && WeiModMain.FOREST_COVENANT_ITEMS.contains(stack.getItem())) {
+                totalValue += WeiModMain.FOREST_COVENANT_ITEM_VALUE.getInt(stack.getItem());
             }
         }
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.getInventory().getItem(i);
-            if (!itemStack.isEmpty()&&WeiModMain.END_COVENANT_ITEMS.contains(itemStack.getItem())) {
-                totalValue += WeiModMain.END_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
+            if (!itemStack.isEmpty()&&WeiModMain.FOREST_COVENANT_ITEMS.contains(itemStack.getItem())) {
+                totalValue += WeiModMain.FOREST_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
         if (totalValue > 2) {
-            if(!player.hasEffect(EffectRegister.COVENANT_END)){
+            if(!player.hasEffect(EffectRegister.COVENANT_FOREST)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID());
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_END, 200, 0, false, false));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FOREST, 200, 0, false, false));
             }
         }
         else{
-            if(player.hasEffect(EffectRegister.COVENANT_END)) {
+            if(player.hasEffect(EffectRegister.COVENANT_FOREST)) {
                 WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID());
-                player.removeEffect(EffectRegister.COVENANT_END);
+                player.removeEffect(EffectRegister.COVENANT_FOREST);
             }
         }
     }
