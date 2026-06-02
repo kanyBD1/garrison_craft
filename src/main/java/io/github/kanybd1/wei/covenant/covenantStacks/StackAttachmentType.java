@@ -24,4 +24,12 @@ public class StackAttachmentType {
                     .copyOnDeath()
                     .build()
             );
+
+    public static final Supplier<AttachmentType<IStack>> STACK_FOREST =
+            ATTACHMENT_TYPES.register("forest_stack",()-> AttachmentType.<IStack>builder(()-> IStack.EMPTY)
+                    .serialize(IStack.CODEC)
+                    .copyOnDeath()
+                    .build()
+            );
+
 }

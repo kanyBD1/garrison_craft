@@ -17,6 +17,10 @@ public class CovenantForest extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
     }
 
+    public static float damageIncrease(float damage, int level){
+        return (1 - level / 999f * 0.8f) * damage;
+    }
+
     public static void applyJump(Player player) {player.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 200, 0));}
 
     public static void ActiveCovenantFortress(PlayerTickEvent.Post event){
@@ -39,13 +43,13 @@ public class CovenantForest extends MobEffect {
         }
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_FOREST)){
-                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID());
+                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"forest");
                 player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FOREST, 200, 0, false, false));
             }
         }
         else{
             if(player.hasEffect(EffectRegister.COVENANT_FOREST)) {
-                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID());
+                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(),"forest");
                 player.removeEffect(EffectRegister.COVENANT_FOREST);
             }
         }

@@ -38,13 +38,13 @@ public class CovenantMiner extends MobEffect {
         }
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_MINER)){
-                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID());
+                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"miner");
                 player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_MINER, 200, 0, false, false));
             }
         }
         else{
             if(player.hasEffect(EffectRegister.COVENANT_MINER)) {
-                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID());
+                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(),"miner");
                 player.removeEffect(EffectRegister.COVENANT_MINER);
             }
         }

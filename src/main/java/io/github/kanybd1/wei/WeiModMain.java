@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import io.github.kanybd1.wei.covenant.CovenantManager;
 import io.github.kanybd1.wei.covenant.EffectRegister;
 
+import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
 import io.github.kanybd1.wei.party1.TeamManager;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -17,6 +18,7 @@ import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
 
 import java.util.Set;
+import java.util.prefs.Preferences;
 
 @Mod(WeiModMain.MODID)
 public class WeiModMain {
@@ -66,9 +68,22 @@ public class WeiModMain {
             Items.BUCKET
     );
 
+    public static final Set<Item> FOREST_COVENANT_ITEMS = Set.of(
+            Items.APPLE,
+            Items.BOW,
+            Items.LEATHER_BOOTS,
+            Items.LEATHER_HELMET,
+            Items.LEATHER_CHESTPLATE,
+            Items.LEATHER_LEGGINGS,
+            Items.VINE,
+            Items.COCOA_BEANS,
+            Items.CROSSBOW
+    );
+
     public static final Object2IntMap<Item> FORTRESS_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static final Object2IntMap<Item> END_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static final Object2IntMap<Item> MINER_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
+    public static final Object2IntMap<Item> FOREST_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>() ;
 
     public WeiModMain(IEventBus modEventBus, ModContainer modContainer) {
 
@@ -108,8 +123,19 @@ public class WeiModMain {
         MINER_COVENANT_ITEM_VALUE.put(Items.WATER_BUCKET, 1);
         MINER_COVENANT_ITEM_VALUE.put(Items.LAVA_BUCKET, 1);
 
+        //FOREST
+        FOREST_COVENANT_ITEM_VALUE.put(Items.COCOA_BEANS, 1);
+        FOREST_COVENANT_ITEM_VALUE.put(Items.APPLE, 1);
+        FOREST_COVENANT_ITEM_VALUE.put(Items.VINE, 1);
+        FOREST_COVENANT_ITEM_VALUE.put(Items.BOW, 1);
+        FOREST_COVENANT_ITEM_VALUE.put(Items.LEATHER_BOOTS, 1);
+        FOREST_COVENANT_ITEM_VALUE.put(Items.LEATHER_HELMET, 1);
+        FOREST_COVENANT_ITEM_VALUE.put(Items.LEATHER_CHESTPLATE, 1);
+        FOREST_COVENANT_ITEM_VALUE.put(Items.LEATHER_LEGGINGS, 1);
+        FOREST_COVENANT_ITEM_VALUE.put(Items.CROSSBOW, 1);
 
         EffectRegister.EVENTS.register(modEventBus);
+        StackAttachmentType.ATTACHMENT_TYPES.register(modEventBus);
 
     }
 }
