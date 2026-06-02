@@ -12,13 +12,12 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import java.util.Objects;
 
 import static io.github.kanybd1.wei.covenant.covenants.CovenantEnd.applySpeed;
-import static io.github.kanybd1.wei.covenant.covenants.CovenantForest.applyJump;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantMiner.applyHaste;
 
 @EventBusSubscriber(modid = "wei")
 public class CovenantEffectManager {
     @SubscribeEvent
-    public static void onPlayerDamagePre_Fortress(LivingDamageEvent.Pre event) {
+    public static void onPlayerDamagePre(LivingDamageEvent.Pre event) {
         if (!(event.getEntity() instanceof Player player)) {
             return;
         }
@@ -27,7 +26,6 @@ public class CovenantEffectManager {
             return;
         }
 
-
         final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_FORTRESS);
         assert Objects.nonNull(effectCovenant);
 
@@ -35,7 +33,7 @@ public class CovenantEffectManager {
             CovenantFortress.damageReduction(event.getNewDamage(), effectCovenant.getAmplifier())));
     }
     @SubscribeEvent
-    public static void onPlayerTeleport_End(EntityTeleportEvent event) {
+    public static void onPlayerTeleport(EntityTeleportEvent event) {
         if (!(event.getEntity() instanceof Player player)) {
             return;
         }
@@ -45,19 +43,11 @@ public class CovenantEffectManager {
         applySpeed(player);
     }
     @SubscribeEvent
-    public static void onPlayerTick_Miner(PlayerTickEvent event) {
+    public static void onPlayerTick(PlayerTickEvent.Pre event) {
         Player player = event.getEntity();
         if (!player.hasEffect(EffectRegister.COVENANT_MINER)) {
             return;
         }
         applyHaste(player);
-    }
-    @SubscribeEvent
-    public static void onPlayerTick_Forest(PlayerTickEvent event) {
-        Player player = event.getEntity();
-        if (!player.hasEffect(EffectRegister.COVENANT_FOREST)) {
-            return;
-        }
-        applyJump(player);
     }
 }

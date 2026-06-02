@@ -4,51 +4,56 @@ import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.covenants.CovenantFortress;
 import io.github.kanybd1.wei.covenant.EffectRegister;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 import java.util.Set;
 import java.util.UUID;
 
-@EventBusSubscriber(modid = "wei")
+// 显式指定监听 GAME 总线
+@EventBusSubscriber(modid = WeiModMain.MODID)
 public class TeamEvents {
     private static int globalCountdownTicks = 0;
-    private static final int COOL_DOWN = 600;
+    private static final int COOL_DOWN = 600; // 30秒
+
     @SubscribeEvent
-    public static void onPlayerTick(PlayerTickEvent.Post event) {
+    public static void onLevelTick(LevelTickEvent.Post event) {
+        Level level = event.getLevel();
 
-        Set<String> Names = WeiModMain.TEAM_MANAGER.getTeamNames();
-        Player currentPlayer = event.getEntity();
+        if (level.isClientSide()) return;
 
-        if (!currentPlayer.level().isClientSide() && currentPlayer.getUUID().equals(currentPlayer.level().players().get(0).getUUID())) {
-            globalCountdownTicks++;
-            if (globalCountdownTicks < COOL_DOWN) {
-                return;
-            }
-            globalCountdownTicks = 0;
-            for (String teamName : Names) {
+        if (level.players().isEmpty()) return;
 
-                Set<UUID> members = WeiModMain.TEAM_MANAGER.getTeamMembers(teamName);
-                int value = 0;
+        globalCountdownTicks++;
+        if (globalCountdownTicks < COOL_DOWN) {
+            return;
+        }
+        globalCountdownTicks = 0;
 
-                for (UUID member : members) {
+        Set<String> teamNames = WeiModMain.TEAM_MANAGER.getTeamNames();
+        if (teamNames == null || teamNames.isEmpty()) return;
 
-                    Player player = event.getEntity().level().getPlayerByUUID(member);
+        for (String teamName : teamNames) {
+            Set<UUID> members = WeiModMain.TEAM_MANAGER.getTeamMembers(teamName);
+            if (members == null || members.isEmpty()) continue;
 
-                    if (player != null) {
+            int fortressCount = 0;
 
-                        if (player.hasEffect(EffectRegister.COVENANT_FORTRESS)) {
-                            value++;
-                        }
-                    }
+            for (UUID member : members) {
+                Player player = level.getPlayerByUUID(member);
+
+                if (player != null && player.isAlive() && player.hasEffect(EffectRegister.COVENANT_FORTRESS)) {
+                    fortressCount++;
                 }
-                if (value >= 2) {
-                    for (UUID member : members) {
-                        Player player = event.getEntity().level().getPlayerByUUID(member);
-                        if (player != null) {
-                            CovenantFortress.applyAbsorption(value, player);
-                        }
+            }
+
+            if (fortressCount >= 2) {
+                for (UUID member : members) {
+                    Player player = level.getPlayerByUUID(member);
+                    if (player != null && player.isAlive()) {
+                        CovenantFortress.applyAbsorption(fortressCount, player);
                     }
                 }
             }

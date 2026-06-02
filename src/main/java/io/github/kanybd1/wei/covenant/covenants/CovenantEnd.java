@@ -38,13 +38,13 @@ public class CovenantEnd extends MobEffect {
         }
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_END)){
-                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID());
+                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"End");
                 player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_END, 200, 0, false, false));
             }
         }
         else{
             if(player.hasEffect(EffectRegister.COVENANT_END)) {
-                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID());
+                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(),"End");
                 player.removeEffect(EffectRegister.COVENANT_END);
             }
         }

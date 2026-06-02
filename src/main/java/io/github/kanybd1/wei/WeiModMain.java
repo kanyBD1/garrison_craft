@@ -66,14 +66,9 @@ public class WeiModMain {
             Items.BUCKET
     );
 
-    public static final Set<Item> FOREST_COVENANT_ITEMS = Set.of(
-            Items.APPLE
-    );
-
     public static final Object2IntMap<Item> FORTRESS_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static final Object2IntMap<Item> END_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static final Object2IntMap<Item> MINER_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
-    public static final Object2IntMap<Item> FOREST_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
 
     public WeiModMain(IEventBus modEventBus, ModContainer modContainer) {
 
@@ -113,11 +108,6 @@ public class WeiModMain {
         MINER_COVENANT_ITEM_VALUE.put(Items.WATER_BUCKET, 1);
         MINER_COVENANT_ITEM_VALUE.put(Items.LAVA_BUCKET, 1);
 
-        //FOREST
-        FOREST_COVENANT_ITEM_VALUE.put(Items.APPLE, 1);
-        FOREST_COVENANT_ITEM_VALUE.put(Items.SWEET_BERRIES, 1);
-        FOREST_COVENANT_ITEM_VALUE.put(Items.GLOW_BERRIES, 1);
-        FOREST_COVENANT_ITEM_VALUE.put(Items.VINE, 1);
 
         EffectRegister.EVENTS.register(modEventBus);
 
