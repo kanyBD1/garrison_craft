@@ -64,9 +64,20 @@ public class WeiModMain {
             Items.BUCKET
     );
 
+    public static Set<Item> OCEAN_COVENANT_ITEMS = Set.of(
+            Items.TRIDENT,
+            Items.COOKED_COD,
+            Items.COOKED_SALMON,
+            Items.FISHING_ROD,
+            Items.HEART_OF_THE_SEA,
+            Items.NAUTILUS_SHELL,
+            Items.TURTLE_HELMET
+    );
+
     public static Object2IntMap<Item> FORTRESS_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> END_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> MINER_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
+    public static Object2IntMap<Item> OCEAN_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
 
     public WeiModMain(IEventBus modEventBus, ModContainer modContainer) {
 
@@ -87,8 +98,10 @@ public class WeiModMain {
         FORTRESS_COVENANT_ITEM_VALUE.put(Items.SHIELD, 1);
         FORTRESS_COVENANT_ITEM_VALUE.put(Items.MACE, 1);
 
+
         END_COVENANT_ITEM_VALUE.put(Items.ENDER_EYE, 1);
         END_COVENANT_ITEM_VALUE.put(Items.ENDER_PEARL, 1);
+
 
         MINER_COVENANT_ITEM_VALUE.put(Items.IRON_INGOT, 1);
         MINER_COVENANT_ITEM_VALUE.put(Items.DIAMOND_PICKAXE, 1);
@@ -97,6 +110,15 @@ public class WeiModMain {
         MINER_COVENANT_ITEM_VALUE.put(Items.BUCKET, 1);
         MINER_COVENANT_ITEM_VALUE.put(Items.WATER_BUCKET, 1);
         MINER_COVENANT_ITEM_VALUE.put(Items.LAVA_BUCKET, 1);
+
+
+        OCEAN_COVENANT_ITEM_VALUE.put(Items.TRIDENT, 1);
+        OCEAN_COVENANT_ITEM_VALUE.put(Items.FISHING_ROD, 1);
+        OCEAN_COVENANT_ITEM_VALUE.put(Items.COOKED_COD, 1);
+        OCEAN_COVENANT_ITEM_VALUE.put(Items.COOKED_SALMON, 1);
+        OCEAN_COVENANT_ITEM_VALUE.put(Items.HEART_OF_THE_SEA, 1);
+        OCEAN_COVENANT_ITEM_VALUE.put(Items.TURTLE_HELMET, 1);
+        OCEAN_COVENANT_ITEM_VALUE.put(Items.NAUTILUS_SHELL, 1);
 
 
         EffectRegister.EVENTS.register(modEventBus);

@@ -31,4 +31,11 @@ public class StackAttachmentType {
                     .copyOnDeath()
                     .build()
             );
+
+    public static final Supplier<AttachmentType<IStack>> STACK_OCEAN =
+            ATTACHMENT_TYPES.register("ocean_stack",()-> AttachmentType.<IStack>builder(()-> IStack.EMPTY)
+                    .serialize(IStack.CODEC)
+                    .copyOnDeath()
+                    .build()
+            );
 }

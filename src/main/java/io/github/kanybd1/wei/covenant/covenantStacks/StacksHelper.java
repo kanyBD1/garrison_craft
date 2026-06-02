@@ -5,7 +5,6 @@ import net.minecraft.world.entity.player.Player;
 public class StacksHelper {
     public static void addFortressStacks(Player player,int amount){
         IStack stack = player.getData(StackAttachmentType.STACK_FORTRESS.get());
-
         stack.setStack(Math.max(stack.getMaxStackSize(), stack.getStack() + amount));
     }
     public static int getFortressStacks(Player player){
@@ -29,6 +28,16 @@ public class StacksHelper {
         stack.setStack(Math.max(stack.getMaxStackSize(), stack.getStack() + amount));
     }
     public static int getEndStacks(Player player){
+        IStack stack = player.getData(StackAttachmentType.STACK_END.get());
+        return stack.getStack();
+    }
+
+    public static void addOceanStacks(Player player,int amount){
+        IStack stack = player.getData(StackAttachmentType.STACK_END.get());
+
+        stack.setStack(Math.max(stack.getMaxStackSize(), stack.getStack() + amount));
+    }
+    public static int getOceanStacks(Player player){
         IStack stack = player.getData(StackAttachmentType.STACK_END.get());
         return stack.getStack();
     }

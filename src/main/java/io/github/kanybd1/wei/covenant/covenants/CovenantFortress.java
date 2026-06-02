@@ -22,7 +22,7 @@ public class CovenantFortress extends MobEffect {
         return (1 - level / 999f * 0.8f) * damage;
     }
 
-    public static void applyAbsorption(int value,Player player){ player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 2400, value-2)); }
+    public static void applyAbsorption(int value,Player player){ player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, value*200, value-2)); }
 
     public static void ActiveCovenantFortress(PlayerTickEvent.Post event){
         Player player = event.getEntity();

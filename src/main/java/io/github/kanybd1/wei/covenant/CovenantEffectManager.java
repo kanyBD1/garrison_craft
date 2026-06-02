@@ -1,6 +1,7 @@
 package io.github.kanybd1.wei.covenant;
 
 import io.github.kanybd1.wei.covenant.covenants.CovenantFortress;
+import io.github.kanybd1.wei.covenant.covenants.CovenantOcean;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -41,16 +42,32 @@ public class CovenantEffectManager {
             return;
         }
         final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_END);
+        assert Objects.nonNull(effectCovenant);
         applySpeed(player,effectCovenant.getAmplifier());
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(PlayerTickEvent.Pre event) {
+    public static void onPlayerTickMiner(PlayerTickEvent.Pre event) {
+        if (event.getEntity().level().isClientSide()) {return;}
         Player player = event.getEntity();
         if (!player.hasEffect(EffectRegister.COVENANT_MINER)) {
             return;
         }
         final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_MINER);
+        assert Objects.nonNull(effectCovenant);
         applyHaste(player,effectCovenant.getAmplifier());
+    }
+    @SubscribeEvent
+    public static void onPlayerTickOcean(PlayerTickEvent.Pre event) {
+        if (event.getEntity().level().isClientSide()) {return;}
+
+        if (!(event.getEntity() instanceof Player player)) {return;}
+
+        if (!player.hasEffect(EffectRegister.COVENANT_OCEAN)) {return;}
+
+        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_MINER);
+        assert Objects.nonNull(effectCovenant);
+
+        if (player.isUnderWater()) {CovenantOcean.applyDolphinsGrace(player);}
     }
 }
