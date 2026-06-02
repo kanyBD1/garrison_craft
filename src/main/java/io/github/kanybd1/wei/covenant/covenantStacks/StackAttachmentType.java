@@ -24,4 +24,11 @@ public class StackAttachmentType {
                     .copyOnDeath()
                     .build()
             );
+
+    public static final Supplier<AttachmentType<IStack>> STACK_MINER =
+            ATTACHMENT_TYPES.register("miner_stack",()-> AttachmentType.<IStack>builder(()-> IStack.EMPTY)
+                    .serialize(IStack.CODEC)
+                    .copyOnDeath()
+                    .build()
+            );
 }

@@ -13,4 +13,24 @@ public class StacksHelper {
         return stack.getStack();
     }
 
+    public static void addMinerStacks(Player player,int amount){
+        IStack stack = player.getData(StackAttachmentType.STACK_MINER.get());
+
+        stack.setStack(Math.max(stack.getMaxStackSize(), stack.getStack() + amount));
+    }
+    public static int getMinerStacks(Player player){
+        IStack stack = player.getData(StackAttachmentType.STACK_MINER.get());
+        return stack.getStack();
+    }
+
+    public static void addEndStacks(Player player,int amount){
+        IStack stack = player.getData(StackAttachmentType.STACK_END.get());
+
+        stack.setStack(Math.max(stack.getMaxStackSize(), stack.getStack() + amount));
+    }
+    public static int getEndStacks(Player player){
+        IStack stack = player.getData(StackAttachmentType.STACK_END.get());
+        return stack.getStack();
+    }
+
 }

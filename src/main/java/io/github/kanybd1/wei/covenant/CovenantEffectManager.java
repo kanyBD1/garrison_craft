@@ -40,14 +40,17 @@ public class CovenantEffectManager {
         if (!player.hasEffect(EffectRegister.COVENANT_END)) {
             return;
         }
-        applySpeed(player);
+        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_END);
+        applySpeed(player,effectCovenant.getAmplifier());
     }
+
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Pre event) {
         Player player = event.getEntity();
         if (!player.hasEffect(EffectRegister.COVENANT_MINER)) {
             return;
         }
-        applyHaste(player);
+        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_MINER);
+        applyHaste(player,effectCovenant.getAmplifier());
     }
 }

@@ -45,15 +45,6 @@ public class Team {
         return false;
     }
 
-    public Boolean setLeader(ServerPlayer player){
-        if (player == null) return false;
-
-        if (this.leader.equals(player.getUUID())) {
-            return false;
-        }
-        this.leader = player.getUUID();
-        return true;
-    }
 
     public Set<UUID> getMembers(){
         return this.members;

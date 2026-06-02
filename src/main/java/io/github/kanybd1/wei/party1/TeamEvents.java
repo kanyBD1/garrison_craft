@@ -1,6 +1,8 @@
 package io.github.kanybd1.wei.party1;
 
 import io.github.kanybd1.wei.WeiModMain;
+import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
+import io.github.kanybd1.wei.covenant.covenants.CovenantEnd;
 import io.github.kanybd1.wei.covenant.covenants.CovenantFortress;
 import io.github.kanybd1.wei.covenant.EffectRegister;
 import net.minecraft.world.entity.player.Player;
@@ -12,14 +14,13 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import java.util.Set;
 import java.util.UUID;
 
-// 显式指定监听 GAME 总线
 @EventBusSubscriber(modid = WeiModMain.MODID)
 public class TeamEvents {
     private static int globalCountdownTicks = 0;
     private static final int COOL_DOWN = 600; // 30秒
 
     @SubscribeEvent
-    public static void onLevelTick(LevelTickEvent.Post event) {
+    public static void onLevelTickFortress(LevelTickEvent.Post event) {
         Level level = event.getLevel();
 
         if (level.isClientSide()) return;
@@ -54,6 +55,47 @@ public class TeamEvents {
                     Player player = level.getPlayerByUUID(member);
                     if (player != null && player.isAlive()) {
                         CovenantFortress.applyAbsorption(fortressCount, player);
+                    }
+                }
+            }
+        }
+    }
+    @SubscribeEvent
+    public static void onLevelTickEnd(LevelTickEvent.Post event) {
+        Level level = event.getLevel();
+
+        if (level.isClientSide()) return;
+
+        if (level.players().isEmpty()) return;
+
+        globalCountdownTicks++;
+        if (globalCountdownTicks < COOL_DOWN) {
+            return;
+        }
+        globalCountdownTicks = 0;
+
+        Set<String> teamNames = WeiModMain.TEAM_MANAGER.getTeamNames();
+        if (teamNames == null || teamNames.isEmpty()) return;
+
+        for (String teamName : teamNames) {
+            Set<UUID> members = WeiModMain.TEAM_MANAGER.getTeamMembers(teamName);
+            if (members == null || members.isEmpty()) continue;
+
+            int fortressCount = 0;
+
+            for (UUID member : members) {
+                Player player = level.getPlayerByUUID(member);
+
+                if (player != null && player.isAlive() && player.hasEffect(EffectRegister.COVENANT_END)) {
+                    fortressCount++;
+                }
+            }
+
+            if (fortressCount >= 2) {
+                for (UUID member : members) {
+                    Player player = level.getPlayerByUUID(member);
+                    if (player != null && player.isAlive()) {
+                        CovenantEnd.applyInvisible(player, StacksHelper.getEndStacks(player));
                     }
                 }
             }
