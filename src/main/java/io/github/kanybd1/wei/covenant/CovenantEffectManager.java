@@ -1,10 +1,14 @@
 package io.github.kanybd1.wei.covenant;
 
-import io.github.kanybd1.wei.covenant.covenants.CovenantForest;
+import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import io.github.kanybd1.wei.covenant.covenants.CovenantFortress;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.phys.EntityHitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
@@ -63,23 +67,20 @@ public class CovenantEffectManager {
         applyJump(player);
     }
     @SubscribeEvent
-    public static void onPlayerDamagePre_forest(LivingDamageEvent.Pre event) {
-        var damageSource = event.getSource();
-        var directEntity = damageSource.getDirectEntity();
-        var causingEntity =damageSource.getEntity();
-
-        if (!(directEntity instanceof Projectile) || !(causingEntity instanceof Player player)) {
-            return;
-        }
-        if (!player.hasEffect(EffectRegister.COVENANT_FOREST)) {
-            return;
-        }
+    public static void onPlayerDamagePre_forest(ProjectileImpactEvent event) {
+        Projectile projectile = event.getProjectile();
+        Entity owner = projectile.getOwner();
+        if (!(owner instanceof Player player)) {return;}
+        if (!player.hasEffect(EffectRegister.COVENANT_FOREST)) {return;}
+        if(!(projectile instanceof AbstractArrow)) {return;}
         final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_FOREST);
-        assert Objects.nonNull(effectCovenant);
+        if (effectCovenant == null) {return;}
 
-        float originalDamage = event.getNewDamage();
-        float increasedDamage = CovenantForest.damageIncrease(originalDamage, effectCovenant.getAmplifier());
-        event.setNewDamage(increasedDamage);
+        if(event.getRayTraceResult() instanceof EntityHitResult entityHitResult) {Entity hitEntity = entityHitResult.getEntity();
+            if(hitEntity instanceof LivingEntity livingTarget) {
+                livingTarget.setHealth(livingTarget.getHealth()-Math.max(StacksHelper.getForestStacks(player)/200,1));
+            }
+        }
     }
 
 }

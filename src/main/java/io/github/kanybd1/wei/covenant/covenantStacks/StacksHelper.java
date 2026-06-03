@@ -6,7 +6,7 @@ public class StacksHelper {
     public static void addFortressStacks(Player player,int amount){
         IStack stack = player.getData(StackAttachmentType.STACK_FORTRESS.get());
 
-        stack.setStack(Math.max(stack.getMaxStackSize(), stack.getStack() + amount));
+        stack.setStack(Math.min(stack.getMaxStackSize(), stack.getStack() + amount));
     }
     public static int getFortressStacks(Player player){
         IStack stack = player.getData(StackAttachmentType.STACK_FORTRESS.get());
@@ -15,7 +15,7 @@ public class StacksHelper {
     public static void addForestStacks(Player player,int amount){
         IStack stack = player.getData(StackAttachmentType.STACK_FOREST.get());
 
-        stack.setStack(Math.max(stack.getMaxStackSize(), stack.getStack() + amount));
+        stack.setStack(Math.min(stack.getMaxStackSize(), stack.getStack() + amount));
     }
     public static int getForestStacks(Player player){
         IStack stack = player.getData(StackAttachmentType.STACK_FOREST.get());

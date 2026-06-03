@@ -5,6 +5,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import static io.github.kanybd1.wei.covenant.covenants.CovenantEnd.ActiveCovenantEnd;
+import static io.github.kanybd1.wei.covenant.covenants.CovenantForest.ActiveCovenantForest;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantFortress.ActiveCovenantFortress;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantMiner.ActiveCovenantMiner;
 
@@ -17,6 +18,6 @@ public class CovenantActiveHandler {
         ActiveCovenantFortress(event);
         ActiveCovenantEnd(event);
         ActiveCovenantMiner(event);
-        ActiveCovenantFortress(event);
+        ActiveCovenantForest(event);
     }
 }
