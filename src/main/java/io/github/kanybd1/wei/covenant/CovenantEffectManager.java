@@ -1,6 +1,7 @@
 package io.github.kanybd1.wei.covenant;
 
 import io.github.kanybd1.wei.covenant.covenants.CovenantFortress;
+import io.github.kanybd1.wei.covenant.covenants.CovenantKnowledge;
 import io.github.kanybd1.wei.covenant.covenants.CovenantOcean;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +20,9 @@ import static io.github.kanybd1.wei.covenant.covenants.CovenantMiner.applyHaste;
 
 @EventBusSubscriber(modid = "wei")
 public class CovenantEffectManager {
+
+    private static boolean isRewarding = false;
+
     @SubscribeEvent
     public static void onPlayerDamagePre(LivingDamageEvent.Pre event) {
         if (!(event.getEntity() instanceof Player player)) {
@@ -44,7 +48,7 @@ public class CovenantEffectManager {
             return;
         }
         final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_END);
-        assert Objects.nonNull(effectCovenant);
+        if (effectCovenant == null) {return;}
         applySpeed(player,effectCovenant.getAmplifier());
     }
 
@@ -56,7 +60,7 @@ public class CovenantEffectManager {
             return;
         }
         final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_MINER);
-        assert Objects.nonNull(effectCovenant);
+        if (effectCovenant == null) {return;}
         applyHaste(player,effectCovenant.getAmplifier());
     }
     @SubscribeEvent
@@ -67,19 +71,30 @@ public class CovenantEffectManager {
         if (!player.hasEffect(EffectRegister.COVENANT_OCEAN)) {return;}
 
         final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_MINER);
-        assert Objects.nonNull(effectCovenant);
-
+        if (effectCovenant == null) {return;}
         if (player.isUnderWater()) {CovenantOcean.applyDolphinsGrace(player);}
     }
     @SubscribeEvent
     public static void onPlayerLevelChange(PlayerXpEvent.LevelChange event) {
+        if (isRewarding) {return;}
         if (event.getEntity().level().isClientSide()) {return;}
         Player player = event.getEntity();
         if (!player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)) {return;}
 
-        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_MINER);
-        assert Objects.nonNull(effectCovenant);
+        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_KNOWLEDGE);
+        if (effectCovenant == null) {return;}
+        try {
+            isRewarding = true;
+            giveExperience(player,effectCovenant.getAmplifier());
+        }finally {
+            isRewarding = false;
+        }
 
-        giveExperience(player,effectCovenant.getAmplifier());
+    }
+    @SubscribeEvent
+    public static void onPlayerDamageKnowledge(LivingDamageEvent.Pre event) {
+        if (!(event.getEntity() instanceof Player player)) {return;}
+        if (!player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)) {return;}
+        event.setNewDamage(CovenantKnowledge.experienceBlock(player,event.getNewDamage()));
     }
 }

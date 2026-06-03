@@ -17,8 +17,8 @@ public class CovenantEnd extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
     }
 
-    public static void applySpeed(Player player,int amount) {player.addEffect(new MobEffectInstance(MobEffects.SPEED, amount,amount/100));}
-    public static void applyInvisible(Player player,int amount) {player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, amount/999*600,0));}
+    public static void applySpeed(Player player,int amount) {player.addEffect(new MobEffectInstance(MobEffects.SPEED, Math.max(amount,100),amount/100));}
+    public static void applyInvisible(Player player,int amount) {player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, Math.max(amount*600/999,100),0));}
     public static void ActiveCovenantEnd(PlayerTickEvent.Post event){
         Player player = event.getEntity();
         if (player.level().isClientSide()) {

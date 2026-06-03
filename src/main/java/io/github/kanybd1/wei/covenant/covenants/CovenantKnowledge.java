@@ -18,6 +18,19 @@ public class CovenantKnowledge extends MobEffect{
 
     public static void giveExperience(Player player, int amount){player.giveExperiencePoints(amount/10);}
 
+    public static float experienceBlock(Player player,float damage){
+        int experienceLevel = player.experienceLevel;
+        if(experienceLevel > damage){
+            player.giveExperienceLevels((int)-damage);
+            return 0;
+        }
+        else if(experienceLevel <= damage){
+            player.giveExperienceLevels(-experienceLevel);
+            return damage-experienceLevel;
+        }
+        return 0;
+    }
+
     public static void ActiveCovenantKnowledge(PlayerTickEvent.Post event){
         Player player = event.getEntity();
         if (player.level().isClientSide()) {
@@ -39,7 +52,7 @@ public class CovenantKnowledge extends MobEffect{
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Knowledge");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 200, StacksHelper.getMinerStacks(player)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 200, StacksHelper.getKnowledgeStacks(player)));
             }
         }
         else{

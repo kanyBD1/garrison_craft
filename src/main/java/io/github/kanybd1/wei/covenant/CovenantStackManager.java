@@ -74,6 +74,6 @@ public class CovenantStackManager {
     public static void onPlayerLevelChange(PlayerXpEvent.LevelChange event){
         Player player = event.getEntity();
         if (!player.hasEffect(EffectRegister.COVENANT_MINER)) {return;}
-        StacksHelper.addMinerStacks(player, 10);
+        StacksHelper.addKnowledgeStacks(player, 10);
     }
 }
