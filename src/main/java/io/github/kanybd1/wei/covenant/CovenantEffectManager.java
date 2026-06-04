@@ -70,7 +70,7 @@ public class CovenantEffectManager {
 
         if (!player.hasEffect(EffectRegister.COVENANT_OCEAN)) {return;}
 
-        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_MINER);
+        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_OCEAN);
         if (effectCovenant == null) {return;}
         if (player.isUnderWater()) {CovenantOcean.applyDolphinsGrace(player);}
     }
