@@ -1,9 +1,6 @@
 package io.github.kanybd1.wei.covenant;
 
-import io.github.kanybd1.wei.covenant.covenants.CovenantEnd;
-import io.github.kanybd1.wei.covenant.covenants.CovenantFortress;
-import io.github.kanybd1.wei.covenant.covenants.CovenantMiner;
-import io.github.kanybd1.wei.covenant.covenants.CovenantOcean;
+import io.github.kanybd1.wei.covenant.covenants.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -20,5 +17,8 @@ public class EffectRegister {
 
     public static final DeferredHolder<MobEffect,MobEffect> COVENANT_OCEAN = EVENTS.register("ocean", CovenantOcean::new);
 
-    public static final DeferredHolder<MobEffect,MobEffect> COVENANT_KNOWLEDGE = EVENTS.register("knowledge", CovenantOcean::new);
+    public static final DeferredHolder<MobEffect,MobEffect> COVENANT_KNOWLEDGE = EVENTS.register("knowledge", CovenantKnowledge::new);
+
+    public static final DeferredHolder<MobEffect,MobEffect> COVENANT_FOREST = EVENTS.register("forest", CovenantOcean::new);
+
 }

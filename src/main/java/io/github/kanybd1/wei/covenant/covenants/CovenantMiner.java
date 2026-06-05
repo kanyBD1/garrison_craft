@@ -12,6 +12,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
+import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.MINER_COVENANT_ITEMS;
+import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.MINER_COVENANT_ITEM_VALUE;
+
 public class CovenantMiner extends MobEffect {
     public CovenantMiner() {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
@@ -27,14 +30,14 @@ public class CovenantMiner extends MobEffect {
         int totalValue = 0;
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
-            if (!stack.isEmpty() && WeiModMain.MINER_COVENANT_ITEMS.contains(stack.getItem())) {
-                totalValue += WeiModMain.MINER_COVENANT_ITEM_VALUE.getInt(stack.getItem());
+            if (!stack.isEmpty() && MINER_COVENANT_ITEMS.contains(stack.getItem())) {
+                totalValue += MINER_COVENANT_ITEM_VALUE.getInt(stack.getItem());
             }
         }
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.getInventory().getItem(i);
-            if (!itemStack.isEmpty()&&WeiModMain.MINER_COVENANT_ITEMS.contains(itemStack.getItem())) {
-                totalValue += WeiModMain.MINER_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
+            if (!itemStack.isEmpty()&&MINER_COVENANT_ITEMS.contains(itemStack.getItem())) {
+                totalValue += MINER_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
         if (totalValue > 2) {

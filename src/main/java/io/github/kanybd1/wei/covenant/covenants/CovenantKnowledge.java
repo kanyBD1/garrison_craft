@@ -11,6 +11,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
+import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.KNOWLEDGE_COVENANT_ITEMS;
+import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.KNOWLEDGE_COVENANT_ITEM_VALUE;
+
 public class CovenantKnowledge extends MobEffect{
     public CovenantKnowledge() {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
@@ -39,14 +42,14 @@ public class CovenantKnowledge extends MobEffect{
         int totalValue = 0;
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
-            if (!stack.isEmpty() && WeiModMain.KNOWLEDGE_COVENANT_ITEMS.contains(stack.getItem())) {
-                totalValue += WeiModMain.KNOWLEDGE_COVENANT_ITEM_VALUE.getInt(stack.getItem());
+            if (!stack.isEmpty() && KNOWLEDGE_COVENANT_ITEMS.contains(stack.getItem())) {
+                totalValue += KNOWLEDGE_COVENANT_ITEM_VALUE.getInt(stack.getItem());
             }
         }
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.getInventory().getItem(i);
-            if (!itemStack.isEmpty()&&WeiModMain.KNOWLEDGE_COVENANT_ITEMS.contains(itemStack.getItem())) {
-                totalValue += WeiModMain.KNOWLEDGE_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
+            if (!itemStack.isEmpty()&&KNOWLEDGE_COVENANT_ITEMS.contains(itemStack.getItem())) {
+                totalValue += KNOWLEDGE_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
         if (totalValue > 2) {

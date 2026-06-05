@@ -12,6 +12,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
+import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.OCEAN_COVENANT_ITEMS;
+import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.OCEAN_COVENANT_ITEM_VALUE;
+
 
 public class CovenantOcean extends MobEffect {
     public CovenantOcean() {
@@ -27,14 +30,14 @@ public class CovenantOcean extends MobEffect {
         int totalValue = 0;
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
-            if (!stack.isEmpty() && WeiModMain.OCEAN_COVENANT_ITEMS.contains(stack.getItem())) {
-                totalValue += WeiModMain.OCEAN_COVENANT_ITEM_VALUE.getInt(stack.getItem());
+            if (!stack.isEmpty() && OCEAN_COVENANT_ITEMS.contains(stack.getItem())) {
+                totalValue += OCEAN_COVENANT_ITEM_VALUE.getInt(stack.getItem());
             }
         }
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.getInventory().getItem(i);
-            if (!itemStack.isEmpty()&&WeiModMain.OCEAN_COVENANT_ITEMS.contains(itemStack.getItem())) {
-                totalValue += WeiModMain.OCEAN_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
+            if (!itemStack.isEmpty()&&OCEAN_COVENANT_ITEMS.contains(itemStack.getItem())) {
+                totalValue += OCEAN_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
         if (totalValue > 2) {
