@@ -18,7 +18,7 @@ import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.OCEAN
 
 public class CovenantOcean extends MobEffect {
     public CovenantOcean() {
-        super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
+        super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
     public static void applyDolphinsGrace(Player player) {player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100, 0));}
 
@@ -43,7 +43,7 @@ public class CovenantOcean extends MobEffect {
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_OCEAN)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Ocean");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_OCEAN, 200, StacksHelper.getOceanStacks(player)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_OCEAN, 40, StacksHelper.getOceanStacks(player)));
             }
         }
         else{

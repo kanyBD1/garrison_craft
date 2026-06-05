@@ -17,7 +17,7 @@ import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.MINER
 
 public class CovenantMiner extends MobEffect {
     public CovenantMiner() {
-        super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
+        super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
 
     public static void applyHaste(Player player,int amount) {player.addEffect(new MobEffectInstance(MobEffects.HASTE, 200,amount/100));}
@@ -43,7 +43,7 @@ public class CovenantMiner extends MobEffect {
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_MINER)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Miner");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_MINER, 200, StacksHelper.getMinerStacks(player)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_MINER, 40, StacksHelper.getMinerStacks(player)));
             }
         }
         else{

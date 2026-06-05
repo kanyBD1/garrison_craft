@@ -16,7 +16,7 @@ import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.KNOWL
 
 public class CovenantKnowledge extends MobEffect{
     public CovenantKnowledge() {
-        super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
+        super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
 
     public static void giveExperience(Player player, int amount){player.giveExperiencePoints(amount/10);}
@@ -55,7 +55,7 @@ public class CovenantKnowledge extends MobEffect{
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Knowledge");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 200, StacksHelper.getKnowledgeStacks(player)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 40, StacksHelper.getKnowledgeStacks(player)));
             }
         }
         else{

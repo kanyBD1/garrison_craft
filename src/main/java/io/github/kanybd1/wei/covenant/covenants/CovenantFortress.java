@@ -17,7 +17,7 @@ import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.FORTR
 
 public class CovenantFortress extends MobEffect {
     public CovenantFortress() {
-        super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
+        super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
 
     public static float damageReduction(float damage, int level){
@@ -47,7 +47,7 @@ public class CovenantFortress extends MobEffect {
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_FORTRESS)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Fortress");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FORTRESS, 200, StacksHelper.getFortressStacks(player)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FORTRESS, 40, StacksHelper.getFortressStacks(player)));
             }
         }
         else{

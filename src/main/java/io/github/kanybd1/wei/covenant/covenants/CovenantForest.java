@@ -18,7 +18,7 @@ import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.FORES
 
 public class CovenantForest extends MobEffect {
     public CovenantForest() {
-        super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
+        super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
 
     public static float addDamage(int level){return (level/250f+1);}
@@ -46,7 +46,7 @@ public class CovenantForest extends MobEffect {
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_FOREST)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"forest");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FOREST, 200, StacksHelper.getForestStacks(player)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FOREST, 40, StacksHelper.getForestStacks(player)));
             }
         }
         else{

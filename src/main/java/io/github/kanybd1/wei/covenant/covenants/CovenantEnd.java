@@ -3,6 +3,7 @@ package io.github.kanybd1.wei.covenant.covenants;
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
 import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -17,8 +18,9 @@ import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.END_C
 
 public class CovenantEnd extends MobEffect {
     public CovenantEnd() {
-        super(MobEffectCategory.BENEFICIAL, 0xFFFFFF);
+        super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
+
 
     public static void applySpeed(Player player,int amount) {player.addEffect(new MobEffectInstance(MobEffects.SPEED, Math.max(amount,100),amount/100));}
     public static void applyInvisible(Player player,int amount) {player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, Math.max(amount*600/999,100),0));}
@@ -43,7 +45,7 @@ public class CovenantEnd extends MobEffect {
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_END)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"End");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_END, 200, StacksHelper.getEndStacks(player)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_END, 40, StacksHelper.getEndStacks(player)));
             }
         }
         else{

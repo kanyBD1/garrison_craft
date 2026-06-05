@@ -3,10 +3,16 @@ package io.github.kanybd1.wei.covenant;
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.phys.EntityHitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
+import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
 import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
@@ -62,7 +68,7 @@ public class CovenantStackManager {
         if (!player.hasEffect(EffectRegister.COVENANT_OCEAN)) {
             return;
         }
-        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_END);
+        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_OCEAN);
 
         if (Objects.isNull(effectCovenant)) {return;}
         if (!player.isUnderWater()) {
@@ -73,7 +79,34 @@ public class CovenantStackManager {
     @SubscribeEvent
     public static void onPlayerLevelChange(PlayerXpEvent.LevelChange event){
         Player player = event.getEntity();
-        if (!player.hasEffect(EffectRegister.COVENANT_MINER)) {return;}
+        if (!player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)) {return;}
         StacksHelper.addKnowledgeStacks(player, 10);
     }
+
+    @SubscribeEvent
+    public static void addPlayerDamagePreForest(ProjectileImpactEvent event) {
+        Projectile projectile = event.getProjectile();
+        Entity owner = projectile.getOwner();
+        if (!(owner instanceof Player player)) {
+            return;
+        }
+        if (!player.hasEffect(EffectRegister.COVENANT_FOREST)) {
+            return;
+        }
+        if (!(projectile instanceof AbstractArrow)) {
+            return;
+        }
+        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_FOREST);
+        if (effectCovenant == null) {
+            return;
+        }
+
+        if (event.getRayTraceResult() instanceof EntityHitResult entityHitResult) {
+            Entity hitEntity = entityHitResult.getEntity();
+            if (hitEntity instanceof LivingEntity livingTarget) {
+                StacksHelper.addForestStacks(player, 9);
+            }
+        }
+    }
+
 }

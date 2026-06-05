@@ -53,12 +53,12 @@ public class StacksHelper {
     }
 
     public static void addForestStacks(Player player,int amount){
-        IStack stack = player.getData(StackAttachmentType.STACK_KNOWLEDGE.get());
+        IStack stack = player.getData(StackAttachmentType.STACK_FOREST.get());
 
         stack.setStack(Math.min(stack.getMaxStackSize(), stack.getStack() + amount));
     }
     public static int getForestStacks(Player player){
-        IStack stack = player.getData(StackAttachmentType.STACK_KNOWLEDGE.get());
+        IStack stack = player.getData(StackAttachmentType.STACK_FOREST.get());
         return stack.getStack();
     }
 }
