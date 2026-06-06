@@ -83,6 +83,4 @@ public class StackGui implements GuiLayer {
             y += LINE_HEIGHT;
         }
     }
-
-
 }
