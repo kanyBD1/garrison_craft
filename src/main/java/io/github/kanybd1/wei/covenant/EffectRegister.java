@@ -19,6 +19,5 @@ public class EffectRegister {
 
     public static final DeferredHolder<MobEffect,MobEffect> COVENANT_KNOWLEDGE = EVENTS.register("knowledge", CovenantKnowledge::new);
 
-    public static final DeferredHolder<MobEffect,MobEffect> COVENANT_FOREST = EVENTS.register("forest", CovenantForest::new);
-
+    public static final DeferredHolder<MobEffect,MobEffect> COVENANT_FOREST = EVENTS.register("forest", CovenantKnowledge::new);
 }

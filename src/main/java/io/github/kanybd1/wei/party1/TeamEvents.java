@@ -1,6 +1,7 @@
 package io.github.kanybd1.wei.party1;
 
 import io.github.kanybd1.wei.WeiModMain;
+import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
 import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import io.github.kanybd1.wei.covenant.covenants.CovenantEnd;
 import io.github.kanybd1.wei.covenant.covenants.CovenantFortress;
@@ -95,7 +96,7 @@ public class TeamEvents {
                 for (UUID member : members) {
                     Player player = level.getPlayerByUUID(member);
                     if (player != null && player.isAlive()) {
-                        CovenantEnd.applyInvisible(player, StacksHelper.getEndStacks(player));
+                        CovenantEnd.applyInvisible(player, StacksHelper.getStack(player, StackAttachmentType.STACK_END));
                     }
                 }
             }

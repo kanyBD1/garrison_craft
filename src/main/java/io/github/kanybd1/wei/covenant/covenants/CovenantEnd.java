@@ -2,6 +2,7 @@ package io.github.kanybd1.wei.covenant.covenants;
 
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
+import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
 import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
@@ -45,7 +46,7 @@ public class CovenantEnd extends MobEffect {
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_END)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"End");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_END, 40, StacksHelper.getEndStacks(player)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_END, 40, StacksHelper.getStack(player, StackAttachmentType.STACK_END)));
             }
         }
         else{

@@ -71,13 +71,14 @@ public class CovenantConfig {
             Items.CROSSBOW
     );
 
+
+
     public static Object2IntMap<Item> FORTRESS_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> END_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> MINER_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> OCEAN_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> KNOWLEDGE_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> FOREST_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
-
 
     public static void init(){
 

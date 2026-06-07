@@ -40,8 +40,7 @@ public class StackGui implements GuiLayer {
                     type == EffectRegister.COVENANT_END.get() ||
                     type == EffectRegister.COVENANT_MINER.get() ||
                     type == EffectRegister.COVENANT_OCEAN.get() ||
-                    type == EffectRegister.COVENANT_KNOWLEDGE.get() ||
-                    type == EffectRegister.COVENANT_FOREST.get()) {
+                    type == EffectRegister.COVENANT_KNOWLEDGE.get()){
                 relevantEffects.add(effect);
             }
         }

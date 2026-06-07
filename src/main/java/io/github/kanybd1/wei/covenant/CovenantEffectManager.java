@@ -1,5 +1,6 @@
 package io.github.kanybd1.wei.covenant;
 
+import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
 import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import io.github.kanybd1.wei.covenant.covenants.CovenantForest;
 import io.github.kanybd1.wei.covenant.covenants.CovenantFortress;
@@ -107,6 +108,7 @@ public class CovenantEffectManager {
         event.setNewDamage(CovenantKnowledge.experienceBlock(player,event.getNewDamage()));
     }
 
+
     @SubscribeEvent
     public static void onPlayerTick_forest(PlayerTickEvent.Pre event) {
         Player player = event.getEntity();
@@ -127,8 +129,9 @@ public class CovenantEffectManager {
 
         if(event.getRayTraceResult() instanceof EntityHitResult entityHitResult) {Entity hitEntity = entityHitResult.getEntity();
             if(hitEntity instanceof LivingEntity livingTarget) {
-                livingTarget.setHealth(livingTarget.getHealth()- CovenantForest.addDamage(StacksHelper.getForestStacks(player)));
+                livingTarget.setHealth(livingTarget.getHealth()- CovenantForest.addDamage(StacksHelper.getStack(player, StackAttachmentType.STACK_FOREST)));
             }
         }
     }
+
 }

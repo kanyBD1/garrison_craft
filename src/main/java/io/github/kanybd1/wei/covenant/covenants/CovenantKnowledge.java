@@ -2,6 +2,7 @@ package io.github.kanybd1.wei.covenant.covenants;
 
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
+import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
 import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -55,7 +56,7 @@ public class CovenantKnowledge extends MobEffect{
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Knowledge");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 40, StacksHelper.getKnowledgeStacks(player)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 40, StacksHelper.getStack(player, StackAttachmentType.STACK_KNOWLEDGE)));
             }
         }
         else{

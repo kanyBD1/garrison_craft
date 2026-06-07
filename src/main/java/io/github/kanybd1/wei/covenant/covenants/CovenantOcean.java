@@ -2,6 +2,7 @@ package io.github.kanybd1.wei.covenant.covenants;
 
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
+import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
 import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -43,7 +44,7 @@ public class CovenantOcean extends MobEffect {
         if (totalValue > 2) {
             if(!player.hasEffect(EffectRegister.COVENANT_OCEAN)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Ocean");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_OCEAN, 40, StacksHelper.getOceanStacks(player)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_OCEAN, 40, StacksHelper.getStack(player, StackAttachmentType.STACK_OCEAN)));
             }
         }
         else{

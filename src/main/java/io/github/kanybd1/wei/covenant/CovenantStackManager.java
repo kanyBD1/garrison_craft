@@ -83,30 +83,5 @@ public class CovenantStackManager {
         StacksHelper.addKnowledgeStacks(player, 10);
     }
 
-    @SubscribeEvent
-    public static void addPlayerDamagePreForest(ProjectileImpactEvent event) {
-        Projectile projectile = event.getProjectile();
-        Entity owner = projectile.getOwner();
-        if (!(owner instanceof Player player)) {
-            return;
-        }
-        if (!player.hasEffect(EffectRegister.COVENANT_FOREST)) {
-            return;
-        }
-        if (!(projectile instanceof AbstractArrow)) {
-            return;
-        }
-        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_FOREST);
-        if (effectCovenant == null) {
-            return;
-        }
-
-        if (event.getRayTraceResult() instanceof EntityHitResult entityHitResult) {
-            Entity hitEntity = entityHitResult.getEntity();
-            if (hitEntity instanceof LivingEntity livingTarget) {
-                StacksHelper.addForestStacks(player, 9);
-            }
-        }
-    }
 
 }
