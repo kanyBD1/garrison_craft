@@ -16,62 +16,32 @@ public class TeamCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
                 Commands.literal("teamcom")
-                        .then(Commands.literal("create")
 
+                        .then(Commands.literal("create").executes(context -> {
+                            ServerPlayer player = context.getSource().getPlayerOrException();
+                            WeiModMain.TEAM_MANAGER.createTeam(player);
+                            return 1;
+                        }))
+
+
+                        .then(Commands.literal("leave").executes(context -> {
+                            ServerPlayer player = context.getSource().getPlayerOrException();
+                            boolean success = WeiModMain.TEAM_MANAGER.removeFromTeam(player);
+                            return success ? 1 : 0;
+                        }))
+
+
+                        .then(Commands.literal("join")
                                 .then(Commands.argument("teamName", StringArgumentType.string())
-
                                         .executes(context -> {
-
                                             ServerPlayer player = context.getSource().getPlayerOrException();
-
                                             String teamName = StringArgumentType.getString(context, "teamName");
 
-                                            WeiModMain.TEAM_MANAGER.createTeam(player);
-
-                                            return 1;
+                                            boolean success = WeiModMain.TEAM_MANAGER.addToTeam(player, teamName);
+                                            return success ? 1 : 0;
                                         })
                                 )
                         )
-        );
-
-        dispatcher.register(Commands.literal("teamcom")
-                .then(Commands.literal("join")
-
-                        .then(Commands.argument("teamName", StringArgumentType.string())
-                                .executes(context -> {
-
-                                    ServerPlayer player = context.getSource().getPlayerOrException();
-
-
-                                    String teamName = StringArgumentType.getString(context, "teamName");
-
-
-                                    boolean success = WeiModMain.TEAM_MANAGER.addToTeam(player, teamName);
-
-                                    if (success) {
-                                        return 1;
-                                    } else {
-                                        return 0;
-                                    }
-                                })
-                        )
-                )
-        );
-
-        dispatcher.register(Commands.literal("teamcom")
-                .then(Commands.literal("leave")
-                        .executes(context -> {
-                            ServerPlayer player = context.getSource().getPlayerOrException();
-
-                            boolean success = WeiModMain.TEAM_MANAGER.removeFromTeam(player);
-
-                            if (success) {
-                                return 1;
-                            } else {
-                                return 0;
-                            }
-                        })
-                )
         );
     }
     @SubscribeEvent

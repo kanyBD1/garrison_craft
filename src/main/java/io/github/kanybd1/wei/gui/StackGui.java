@@ -34,14 +34,14 @@ public class StackGui implements GuiLayer {
         int x = screenWidth - RIGHT_MARGIN;
         int y = TOP_MARGIN;
 
-        // 遍历玩家身上的所有效果
+
         for (MobEffectInstance activeEffect : minecraft.player.getActiveEffects()) {
             MobEffect type = activeEffect.getEffect().value();
 
-            // 检查是不是我们的契约效果
+
             IStack stack = getStackForEffect(type);
 
-            // 如果是契约效果，并且层数大于0，则渲染
+
             if (stack != null && stack.getStack() >= 0) {
                 String displayName = activeEffect.getEffect().value().getDisplayName().getString();
                 int realLevel = stack.getStack() + 1;

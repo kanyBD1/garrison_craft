@@ -17,7 +17,7 @@ public class TeamGui implements GuiLayer {
     public static final TeamGui INSTANCE = new TeamGui();
     private final Minecraft minecraft = Minecraft.getInstance();
 
-    // 样式配置
+
     private static final int RIGHT_MARGIN = 10;
     private static final int PADDING = 4;
     private static final int LINE_HEIGHT = 12;
@@ -46,28 +46,28 @@ public class TeamGui implements GuiLayer {
             maxTextWidth = Math.max(maxTextWidth, font.width(member));
         }
         int panelWidth = maxTextWidth + PADDING * 2;
-        // 总高度 = 标题(1行) + 分隔线或间距 + 成员数量 * 行高
+
         int panelHeight = LINE_HEIGHT + 4 + (members.size() * LINE_HEIGHT);
 
-        // 2. 计算 X 坐标 (靠右对齐)
+
         int x = screenWidth - RIGHT_MARGIN - panelWidth;
 
-        // 3. 计算 Y 坐标 (垂直居中)
-        int y = (screenHeight - panelHeight) / 2;
-        // ----------------------------------
 
-        // 绘制半透明黑色背景
+        int y = (screenHeight - panelHeight) / 2;
+
+
+
         guiGraphics.fill(x, y, x + panelWidth, y + panelHeight, 0x80000000);
 
-        // 绘制队伍名称 (居中于面板顶部)
+
         int titleX = x + (panelWidth - font.width(teamName)) / 2;
         guiGraphics.text(font, teamName, titleX, y + PADDING, TEAM_COLOR, false);
 
-        // 绘制一条简单的分割线
+
         int lineY = y + LINE_HEIGHT + 2;
         guiGraphics.fill(x + 2, lineY, x + panelWidth - 2, lineY + 1, 0xFFFFFFFF);
 
-        // 绘制成员列表
+
         int currentY = lineY + 4;
         for (String memberName : members) {
             guiGraphics.text(font, memberName, x + PADDING, currentY, MEMBER_COLOR, false);
