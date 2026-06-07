@@ -53,10 +53,10 @@ public class CovenantKnowledge extends MobEffect{
                 totalValue += KNOWLEDGE_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-        if (totalValue > 2) {
+        if (totalValue > 1) {
             if(!player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Knowledge");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 40, StacksHelper.getStack(player, StackAttachmentType.STACK_KNOWLEDGE)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_KNOWLEDGE)));
             }
         }
         else{

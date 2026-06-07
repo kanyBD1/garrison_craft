@@ -41,6 +41,10 @@ public class StacksHelper {
         addStack(player, StackAttachmentType.STACK_FOREST, amount);
     }
 
+    public static void addPinpointStacks(Player player,int amount){
+        addStack(player, StackAttachmentType.STACK_PINPOINT, amount);
+    }
+
     public static int getStack(Player player, Supplier<AttachmentType<IStack>> typeSupplier) {
         return player.getData(typeSupplier.get()).getStack();
     }

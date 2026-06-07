@@ -84,7 +84,18 @@ public class Specification {
                         .append(" [被动] 经验盾！\n")
                         .append(" 非真实伤害将全额由经验值承担！！！\n\n")
                         .append("§0叠层方式：\n")
-                        .append(" 通过吸收经验球进行叠加")
+                        .append(" 通过吸收经验球进行叠加"),
+
+                // --- 第六页：精准盟约 ---
+                Component.literal("§l§n【精准盟约】 §0(小盟约·暂定)\n\n")
+                        .append("§0所需物品：各类箭矢 火焰弹 风弹 \n\n")
+                        .append("鸡蛋 雪球 （价值均1） \n\n")
+                        .append("§0触发条件：消耗 2点 价值\n\n")
+                        .append("§0✦ 核心效果：\n")
+                        .append(" [被动] 砸中了！\n")
+                        .append(" 投掷物命中玩家给与5-7秒恶心！！！\n\n")
+                        .append("§0叠层方式：\n")
+                        .append(" 投掷物命中玩家，每次叠加9层")
         );
 
 

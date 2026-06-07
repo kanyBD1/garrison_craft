@@ -45,10 +45,10 @@ public class CovenantFortress extends MobEffect {
                 totalValue += FORTRESS_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-        if (totalValue > 2) {
+        if (totalValue > 1) {
             if(!player.hasEffect(EffectRegister.COVENANT_FORTRESS)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Fortress");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FORTRESS, 40, StacksHelper.getStack(player, StackAttachmentType.STACK_FORTRESS)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FORTRESS, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_FORTRESS)));
             }
         }
         else{

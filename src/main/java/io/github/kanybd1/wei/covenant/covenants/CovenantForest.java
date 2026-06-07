@@ -44,10 +44,10 @@ public class CovenantForest extends MobEffect {
                 totalValue += FOREST_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-        if (totalValue > 2) {
+        if (totalValue > 1) {
             if(!player.hasEffect(EffectRegister.COVENANT_FOREST)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"forest");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FOREST, 40, StacksHelper.getStack(player, StackAttachmentType.STACK_FOREST)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FOREST, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_FOREST)));
             }
         }
         else{

@@ -43,10 +43,10 @@ public class CovenantEnd extends MobEffect {
                 totalValue += END_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-        if (totalValue > 2) {
+        if (totalValue > 1) {
             if(!player.hasEffect(EffectRegister.COVENANT_END)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"End");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_END, 40, StacksHelper.getStack(player, StackAttachmentType.STACK_END)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_END, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_END)));
             }
         }
         else{

@@ -41,10 +41,10 @@ public class CovenantOcean extends MobEffect {
                 totalValue += OCEAN_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-        if (totalValue > 2) {
+        if (totalValue > 1) {
             if(!player.hasEffect(EffectRegister.COVENANT_OCEAN)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Ocean");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_OCEAN, 40, StacksHelper.getStack(player, StackAttachmentType.STACK_OCEAN)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_OCEAN, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_OCEAN)));
             }
         }
         else{

@@ -71,6 +71,16 @@ public class CovenantConfig {
             Items.CROSSBOW
     );
 
+    public static final Set<Item> PINPOINT_COVENANT_ITEMS = Set.of(
+            Items.ARROW,
+            Items.SPECTRAL_ARROW,
+            Items.TIPPED_ARROW,
+            Items.SNOWBALL,
+            Items.WIND_CHARGE,
+            Items.FIRE_CHARGE,
+            Items.EGG
+    );
+
 
 
     public static Object2IntMap<Item> FORTRESS_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
@@ -79,6 +89,7 @@ public class CovenantConfig {
     public static Object2IntMap<Item> OCEAN_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> KNOWLEDGE_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
     public static Object2IntMap<Item> FOREST_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
+    public static Object2IntMap<Item> PINPOINT_COVENANT_ITEM_VALUE = new Object2IntOpenHashMap<>();
 
     public static void init(){
 
@@ -136,5 +147,15 @@ public class CovenantConfig {
         FOREST_COVENANT_ITEM_VALUE.put(Items.LEATHER_CHESTPLATE, 1);
         FOREST_COVENANT_ITEM_VALUE.put(Items.LEATHER_LEGGINGS, 1);
         FOREST_COVENANT_ITEM_VALUE.put(Items.CROSSBOW, 1);
+
+
+
+        PINPOINT_COVENANT_ITEM_VALUE.put(Items.ARROW,1);
+        PINPOINT_COVENANT_ITEM_VALUE.put(Items.TIPPED_ARROW,1);
+        PINPOINT_COVENANT_ITEM_VALUE.put(Items.SPECTRAL_ARROW,1);
+        PINPOINT_COVENANT_ITEM_VALUE.put(Items.EGG, 1);
+        PINPOINT_COVENANT_ITEM_VALUE.put(Items.SNOWBALL, 1);
+        PINPOINT_COVENANT_ITEM_VALUE.put(Items.FIRE_CHARGE, 1);
+        PINPOINT_COVENANT_ITEM_VALUE.put(Items.WIND_CHARGE, 1);
     }
 }

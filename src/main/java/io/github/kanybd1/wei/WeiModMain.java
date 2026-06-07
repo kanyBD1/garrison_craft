@@ -26,7 +26,6 @@ public class WeiModMain {
         EffectRegister.EVENTS.register(modEventBus);
         StackAttachmentType.ATTACHMENT_TYPES.register(modEventBus);
 
-        // ✅ 在这里注册网络包处理事件
         modEventBus.addListener(this::registerPayloads);
     }
 

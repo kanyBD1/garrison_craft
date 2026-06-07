@@ -10,6 +10,7 @@ import static io.github.kanybd1.wei.covenant.covenants.CovenantFortress.ActiveCo
 import static io.github.kanybd1.wei.covenant.covenants.CovenantKnowledge.ActiveCovenantKnowledge;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantMiner.ActiveCovenantMiner;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantOcean.ActiveCovenantOcean;
+import static io.github.kanybd1.wei.covenant.covenants.CovenantPinpoint.ActiveCovenantPinpoint;
 
 
 @EventBusSubscriber(modid = "wei")
@@ -23,5 +24,6 @@ public class CovenantActiveHandler {
         ActiveCovenantOcean(event);
         ActiveCovenantKnowledge(event);
         ActiveCovenantForest(event);
+        ActiveCovenantPinpoint(event);
     }
 }

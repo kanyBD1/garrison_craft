@@ -17,6 +17,8 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
 import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.util.internal.instant.InstantNumberFormatter;
 
 import java.util.Objects;
 
@@ -83,5 +85,53 @@ public class CovenantStackManager {
         StacksHelper.addKnowledgeStacks(player, 10);
     }
 
+    @SubscribeEvent
+    public static void addPlayerProjectileHit(ProjectileImpactEvent event) {
+        Projectile projectile = event.getProjectile();
+        Entity owner = projectile.getOwner();
+        if (!(owner instanceof Player player)) {
+            return;
+        }
+        if (!player.hasEffect(EffectRegister.COVENANT_PINPOINT)) {
+            return;
+        }
+        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_PINPOINT);
+        if (effectCovenant == null) {
+            return;
+        }
+
+        if (event.getRayTraceResult() instanceof EntityHitResult entityHitResult) {
+            Entity hitEntity = entityHitResult.getEntity();
+            if (hitEntity instanceof Player livingTarget) {
+                StacksHelper.addPinpointStacks(player, 9);
+            }
+        }
+    }
+    @SubscribeEvent
+    public static void addPlayerDamagePreForest(ProjectileImpactEvent event) {
+        Projectile projectile = event.getProjectile();
+        Entity owner = projectile.getOwner();
+        if (!(owner instanceof Player player)) {
+            return;
+        }
+        if (!player.hasEffect(EffectRegister.COVENANT_FOREST)) {
+            return;
+        }
+        if (!(projectile instanceof AbstractArrow)) {
+            return;
+        }
+        final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_FOREST);
+        if (effectCovenant == null) {
+            return;
+        }
+
+        if (event.getRayTraceResult() instanceof EntityHitResult entityHitResult) {
+            Entity hitEntity = entityHitResult.getEntity();
+            if (hitEntity instanceof LivingEntity livingTarget) {
+                StacksHelper.addForestStacks(player, 9);
+                WeiModMain.LOGGER.info("OK");
+            }
+        }
+    }
 
 }
