@@ -1,7 +1,9 @@
 package io.github.kanybd1.wei.party1;
 
+import io.github.kanybd1.wei.network.SyncTeamPacket;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
 
@@ -15,12 +17,36 @@ public class TeamManager {
         playerTeamMap = new HashMap<>();
     }
 
+    public void syncTeamToPlayer(ServerPlayer player) {
+        Optional<Team> teamOpt = getPlayerTeam(player);
+        if (teamOpt.isPresent()) {
+            Team team = teamOpt.get();
+            List<String> memberNames = new ArrayList<>();
+
+
+            for (UUID memberUuid : team.getMembers()) {
+                ServerPlayer member = player.level().getServer().getPlayerList().getPlayer(memberUuid);
+                if (member != null) {
+                    memberNames.add(member.getName().getString());
+                }
+            }
+
+
+            PacketDistributor.sendToPlayer(player, new SyncTeamPacket(team.getTeamName(), memberNames));
+        } else {
+
+            PacketDistributor.sendToPlayer(player, new SyncTeamPacket(null, Collections.emptyList()));
+        }
+    }
+
     public Team createTeam(ServerPlayer ServerPlayer){
         String teamName=ServerPlayer.getDisplayName().getString()+"'s Team";
         Team newTeam = new Team(UUID.randomUUID(),teamName,ServerPlayer.getUUID());
+        newTeam.addMember(ServerPlayer);
         teams.put(teamName,newTeam);
         playerTeamMap.put(ServerPlayer.getUUID(),teamName);
         ServerPlayer.sendSystemMessage(Component.literal("创建队伍: " +teamName));
+        syncTeamToPlayer(ServerPlayer);
         return newTeam;
     }
 
@@ -57,6 +83,7 @@ public class TeamManager {
         if(added){
             playerTeamMap.put(playerUUID,teamName);
             ServerPlayer.sendSystemMessage(Component.literal("成功加入此队伍："+teamName));
+            syncTeamToPlayer(ServerPlayer);
             return true;
         }
         return false;
@@ -71,6 +98,7 @@ public class TeamManager {
             if(team!=null){
                 team.removeMember(player);
                 player.sendSystemMessage(Component.literal("成功退出队伍："+ currentTeamName));
+                syncTeamToPlayer(player);
                 return true;
             }
         }

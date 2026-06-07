@@ -49,4 +49,8 @@ public class Team {
     public Set<UUID> getMembers(){
         return this.members;
     }
+
+    public String getTeamName() {
+        return this.teamName;
+    }
 }

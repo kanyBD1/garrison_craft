@@ -15,8 +15,8 @@ public class TeamCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
-                Commands.literal("create")
-                        .then(Commands.literal("team")
+                Commands.literal("teamcom")
+                        .then(Commands.literal("create")
 
                                 .then(Commands.argument("teamName", StringArgumentType.string())
 
@@ -34,8 +34,8 @@ public class TeamCommand {
                         )
         );
 
-        dispatcher.register(Commands.literal("join")
-                .then(Commands.literal("team")
+        dispatcher.register(Commands.literal("teamcom")
+                .then(Commands.literal("join")
 
                         .then(Commands.argument("teamName", StringArgumentType.string())
                                 .executes(context -> {
@@ -58,8 +58,8 @@ public class TeamCommand {
                 )
         );
 
-        dispatcher.register(Commands.literal("leave")
-                .then(Commands.literal("team")
+        dispatcher.register(Commands.literal("teamcom")
+                .then(Commands.literal("leave")
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
 

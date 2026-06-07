@@ -21,8 +21,8 @@ public class TeamGui implements GuiLayer {
     private static final int RIGHT_MARGIN = 10;
     private static final int PADDING = 4;
     private static final int LINE_HEIGHT = 12;
-    private static final int TEAM_COLOR = 0xFF55FF;
-    private static final int MEMBER_COLOR = 0xFFFFFF;
+    private static final int TEAM_COLOR = 0xFF55FFFF;
+    private static final int MEMBER_COLOR = 0xFFFFFFFF;
 
     @Override
     public void render(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker) {

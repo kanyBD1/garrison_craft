@@ -1,6 +1,7 @@
 package io.github.kanybd1.wei;
 
 import io.github.kanybd1.wei.gui.StackGui;
+import io.github.kanybd1.wei.gui.TeamGui;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -28,11 +29,17 @@ public class WeiModClient {
 
     @SubscribeEvent
     static void onRegisterGuiLayers(RegisterGuiLayersEvent event) {
-        // 将你的契约药水侧边栏注册到原版 HUD 之下
+
         event.registerBelow(
                 Identifier.fromNamespaceAndPath("minecraft", "hotbar"),
                 Identifier.fromNamespaceAndPath(WeiModMain.MODID, "covenant_hud"),
                 StackGui.INSTANCE
+        );
+
+        event.registerAbove(
+                Identifier.fromNamespaceAndPath("minecraft", "hotbar"),
+                Identifier.fromNamespaceAndPath(WeiModMain.MODID, "team_hud"),
+                TeamGui.INSTANCE
         );
     }
 }
