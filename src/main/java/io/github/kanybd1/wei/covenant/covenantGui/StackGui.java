@@ -1,6 +1,5 @@
-package io.github.kanybd1.wei.gui;
+package io.github.kanybd1.wei.covenant.covenantGui;
 
-import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
 import io.github.kanybd1.wei.covenant.covenantStacks.IStack;
 import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;

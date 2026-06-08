@@ -1,4 +1,4 @@
-package io.github.kanybd1.wei.client;
+package io.github.kanybd1.wei.team.client;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;

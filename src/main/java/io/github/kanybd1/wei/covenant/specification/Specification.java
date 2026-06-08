@@ -1,14 +1,17 @@
-package io.github.kanybd1.wei.specification;
+package io.github.kanybd1.wei.covenant.specification;
 
 import io.github.kanybd1.wei.WeiModMain;
+import io.github.kanybd1.wei.bedwar.bagshop.ModItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.network.Filterable;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.WrittenBookContent;
+import net.minecraft.world.level.ItemLike;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -115,6 +118,14 @@ public class Specification {
 
         book.set(DataComponents.WRITTEN_BOOK_CONTENT, bookContent);
 
+        if (WeiModMain.SHOP_OPENER != null) {
+            ItemStack opener = new ItemStack(WeiModMain.SHOP_OPENER);
+            if (!event.getEntity().getInventory().add(opener)) {
+                event.getEntity().drop(opener, false);
+            }
+        } else {
+            WeiModMain.LOGGER.error("SHOP_OPENER is null! Item registration may have failed.");
+        }
 
         if (!event.getEntity().getInventory().add(book)) {
             event.getEntity().drop(book, false);

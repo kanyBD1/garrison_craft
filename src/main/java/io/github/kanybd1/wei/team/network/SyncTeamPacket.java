@@ -1,6 +1,6 @@
-package io.github.kanybd1.wei.network;
+package io.github.kanybd1.wei.team.network;
 
-import io.github.kanybd1.wei.client.ClientTeamData;
+import io.github.kanybd1.wei.team.client.ClientTeamData;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;

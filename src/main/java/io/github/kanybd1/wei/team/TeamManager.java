@@ -1,6 +1,6 @@
-package io.github.kanybd1.wei.party1;
+package io.github.kanybd1.wei.team;
 
-import io.github.kanybd1.wei.network.SyncTeamPacket;
+import io.github.kanybd1.wei.team.network.SyncTeamPacket;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;

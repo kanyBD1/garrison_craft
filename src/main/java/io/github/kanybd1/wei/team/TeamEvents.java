@@ -1,4 +1,4 @@
-package io.github.kanybd1.wei.party1;
+package io.github.kanybd1.wei.team;
 
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;

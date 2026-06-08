@@ -1,4 +1,4 @@
-package io.github.kanybd1.wei.bedwar.bagshop;
+package io.github.kanybd1.wei.bedwar.bagshop.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -12,7 +12,6 @@ import java.util.Set;
 
 public record PlayerShopData(int balance, Set<String> unlockedItems) {
 
-    // 【关键】改为 public static，供外部（Attachment、网络包等）统一调用
     private static final Codec<Set<String>> STRING_SET_CODEC =
             Codec.STRING.listOf().xmap(
                     list -> new HashSet<>(list),

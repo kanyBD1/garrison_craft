@@ -1,6 +1,6 @@
-package io.github.kanybd1.wei.gui;
+package io.github.kanybd1.wei.team.gui;
 
-import io.github.kanybd1.wei.client.ClientTeamData;
+import io.github.kanybd1.wei.team.client.ClientTeamData;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
