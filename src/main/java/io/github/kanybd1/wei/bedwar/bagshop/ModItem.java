@@ -27,7 +27,6 @@ public class ModItem extends net.minecraft.world.item.Item {
         if (!level.isClientSide() && player instanceof ServerPlayer sp) {
             sp.openMenu(new SimpleMenuProvider(
                     (id, inv, p) -> {
-                        // ⭐ 从服务端 Attachment 获取数据，而非 ClientShopData
                         PlayerShopData serverData = p.getData(AttachmentShopData.PLAYER_SHOP_DATA);
                         return new ShopMenu(id, inv, serverData);
                     },

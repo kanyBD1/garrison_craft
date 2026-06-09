@@ -25,10 +25,9 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
         this.inventoryLabelY = -100;
     }
 
-    // ⭐ 核心修复：重写 extractContents 代替已移除的 renderBg
     @Override
     public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        // ⭐ 使用 RenderPipelines.GUI_TEXTURED + 10参数 blit（与父类高亮槽位写法一致）
+
         graphics.blit(
                 RenderPipelines.GUI_TEXTURED,
                 SHOP_BACKGROUND,
@@ -38,6 +37,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
                 this.imageWidth,
                 this.imageHeight,
                 256, 256
+
         );
 
 
@@ -48,6 +48,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
 
         }
     }
+
 
     // ⭐ 供 Payload handle 调用的刷新方法
     public void refreshData() {

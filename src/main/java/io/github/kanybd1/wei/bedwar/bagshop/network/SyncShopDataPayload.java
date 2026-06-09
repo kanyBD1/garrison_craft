@@ -1,16 +1,16 @@
 package io.github.kanybd1.wei.bedwar.bagshop.network;
 
 import io.github.kanybd1.wei.WeiModMain;
-import io.github.kanybd1.wei.bedwar.bagshop.client.ClientShopData; // ⭐ 导入客户端缓存
+import io.github.kanybd1.wei.bedwar.bagshop.client.ClientShopData;
 import io.github.kanybd1.wei.bedwar.bagshop.data.PlayerShopData;
-import io.github.kanybd1.wei.bedwar.bagshop.gui.ShopScreen;       // ⭐ 导入商店UI
+import io.github.kanybd1.wei.bedwar.bagshop.gui.ShopScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
-import net.neoforged.neoforge.network.handling.IPayloadContext; // ⭐ 导入上下文
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record SyncShopDataPayload(PlayerShopData data) implements CustomPacketPayload {
 
