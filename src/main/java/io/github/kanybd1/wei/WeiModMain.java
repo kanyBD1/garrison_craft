@@ -32,7 +32,6 @@ public class WeiModMain {
     public static CovenantManager COVENANT_MANAGER = new CovenantManager();
     public static TeamManager TEAM_MANAGER = new TeamManager();
 
-    // ⭐ 物品和菜单都改为普通静态字段
     public static ModItem SHOP_OPENER;
     public static MenuType<ShopMenu> SHOP_MENU;
 
@@ -44,7 +43,7 @@ public class WeiModMain {
 
         modEventBus.addListener(this::registerPayloads);
         modEventBus.addListener(this::onRegisterItems);
-        modEventBus.addListener(this::onRegisterMenus); // ⭐ 新增菜单注册监听
+        modEventBus.addListener(this::onRegisterMenus);
     }
 
     private void registerPayloads(RegisterPayloadHandlersEvent event) {
@@ -63,15 +62,14 @@ public class WeiModMain {
             SHOP_OPENER = new ModItem(
                     new Item.Properties()
                             .stacksTo(1)
-                            .setId(shopOpenerKey)  // ← ResourceKey<Item>
+                            .setId(shopOpenerKey)
             );
 
-            // ⭐ event.register 第二个参数仍然是 Identifier！
+
             event.register(Registries.ITEM, shopOpenerId, () -> SHOP_OPENER);
         }
     }
 
-    // ⭐ 菜单注册：绕过 DeferredRegister，使用 RegisterEvent
     private void onRegisterMenus(RegisterEvent event) {
         if (event.getRegistryKey().equals(Registries.MENU)) {
             Identifier shopMenuId = Identifier.fromNamespaceAndPath(MODID, "shop_menu");
@@ -79,5 +77,7 @@ public class WeiModMain {
             event.register(Registries.MENU, shopMenuId, () -> SHOP_MENU);
         }
     }
+
+
 
 }

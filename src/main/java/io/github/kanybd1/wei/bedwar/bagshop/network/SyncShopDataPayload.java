@@ -29,16 +29,13 @@ public record SyncShopDataPayload(PlayerShopData data) implements CustomPacketPa
                     SyncShopDataPayload::new
             );
 
-    // ⭐ 客户端处理方法
     public static void handle(SyncShopDataPayload payload, IPayloadContext context) {
-        // 网络包在 Netty 线程接收，必须切回游戏主线程才能操作 UI 和客户端数据
+
         context.enqueueWork(() -> {
             Minecraft mc = Minecraft.getInstance();
 
-            // 1. 写入客户端缓存
             ClientShopData.update(payload.data());
 
-            // 2. 如果玩家当前正看着商店界面，立即刷新防止显示旧数据
             if (mc.screen instanceof ShopScreen shopScreen) {
                 shopScreen.refreshData();
             }

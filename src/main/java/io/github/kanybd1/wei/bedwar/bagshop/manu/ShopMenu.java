@@ -28,7 +28,7 @@ public class ShopMenu extends AbstractContainerMenu {
         for (int i = 0; i < 27; i++) {
             int x = 8 + (i % 9) * 18;
             int y = 18 + (i / 9) * 18;
-            // 使用空容器占位，实际渲染由 Screen 端 ClientCache 处理
+
             this.addSlot(new Slot(EMPTY_CONTAINER, i, x, y) {
                 @Override public boolean mayPickup(Player p) { return false; }
                 @Override public boolean mayPlace(ItemStack s) { return false; }
