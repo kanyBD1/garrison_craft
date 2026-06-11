@@ -2,8 +2,11 @@ package io.github.kanybd1.wei;
 
 import io.github.kanybd1.wei.bedwar.bagshop.client.ClientShopData;
 import io.github.kanybd1.wei.bedwar.bagshop.gui.ShopScreen;
+import io.github.kanybd1.wei.bedwar.bagshop.network.RefreshShopPacket;
+import io.github.kanybd1.wei.bedwar.bagshop.network.SyncShopDataPayload;
 import io.github.kanybd1.wei.covenant.covenantGui.StackGui;
 import io.github.kanybd1.wei.team.gui.TeamGui;
+import io.github.kanybd1.wei.team.network.SyncTeamPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.neoforged.api.distmarker.Dist;
@@ -20,9 +23,12 @@ import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
-@Mod(value = WeiModMain.MODID, dist = Dist.CLIENT)
-@EventBusSubscriber(modid = WeiModMain.MODID, value = Dist.CLIENT)
+import static io.github.kanybd1.wei.WeiModMain.MODID;
+
+@Mod(value = MODID, dist = Dist.CLIENT)
+@EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
 public class WeiModClient {
     public WeiModClient(ModContainer container) {
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
@@ -33,15 +39,22 @@ public class WeiModClient {
 
         event.registerBelow(
                 Identifier.fromNamespaceAndPath("minecraft", "hotbar"),
-                Identifier.fromNamespaceAndPath(WeiModMain.MODID, "covenant_hud"),
+                Identifier.fromNamespaceAndPath(MODID, "covenant_hud"),
                 StackGui.INSTANCE
         );
 
         event.registerAbove(
                 Identifier.fromNamespaceAndPath("minecraft", "hotbar"),
-                Identifier.fromNamespaceAndPath(WeiModMain.MODID, "team_hud"),
+                Identifier.fromNamespaceAndPath(MODID, "team_hud"),
                 TeamGui.INSTANCE
         );
+    }
+    @SubscribeEvent
+    private static void registerPayloads(RegisterPayloadHandlersEvent event) {
+        var registrar = event.registrar(MODID);
+        registrar.playToClient(SyncTeamPacket.TYPE, SyncTeamPacket.STREAM_CODEC, SyncTeamPacket::handle);
+        registrar.playToClient(SyncShopDataPayload.TYPE, SyncShopDataPayload.STREAM_CODEC, SyncShopDataPayload::handle);
+        registrar.playToClient(RefreshShopPacket.TYPE, RefreshShopPacket.STREAM_CODEC, RefreshShopPacket::handle);
     }
 
     @SubscribeEvent

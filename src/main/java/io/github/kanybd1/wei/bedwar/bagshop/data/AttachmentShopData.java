@@ -1,41 +1,35 @@
 package io.github.kanybd1.wei.bedwar.bagshop.data;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.kanybd1.wei.WeiModMain;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collections;
 import java.util.function.Supplier;
-
 
 public class AttachmentShopData {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES =
             DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, WeiModMain.MODID);
 
-    private static final Codec<Set<ItemStack>> STRING_SET_CODEC =
-            ItemStack.CODEC.listOf().xmap(
-                    list -> new HashSet<>(list),
-                    set -> new ArrayList<>(set)
-            );
 
-    public static final Codec<PlayerShopData> SHOP_DATA_CODEC = RecordCodecBuilder.create(instance ->
-            instance.group(
-                    Codec.INT.fieldOf("balance").forGetter(PlayerShopData::balance),
-                    Codec.INT.fieldOf("level").forGetter(PlayerShopData::level),
-                    STRING_SET_CODEC.fieldOf("unlocked_items").forGetter(PlayerShopData::unlockedItems)
-            ).apply(instance, PlayerShopData::new)
-    );
 
     public static final Supplier<AttachmentType<PlayerShopData>> PLAYER_SHOP_DATA =
-            ATTACHMENT_TYPES.register("player_shop_data", () -> AttachmentType.<PlayerShopData>builder(() -> new PlayerShopData(999,1,new HashSet<>()))
-                    .serialize(PlayerShopData.MAP_CODEC)
-                    .copyOnDeath()
-                    .build()
+            ATTACHMENT_TYPES.register("player_shop_data", () -> AttachmentType.<PlayerShopData>builder(() ->
+                                    // 【修改】使用完整的五参数构造器，显式初始化所有字段
+                                    new PlayerShopData(
+                                            999,                    // balance
+                                            1,                      // level
+                                            Collections.emptySet(), // unlockedItems
+                                            Collections.emptyList(),// displayedItems (服务端权威商品列表)
+                                            Collections.emptySet(), // purchasedSlots (已购买槽位)
+                                            0L
+                                    )
+                            )
+                            // 使用 PlayerShopData 内部定义的完整 MAP_CODEC
+                            // 它包含了全部5个字段的序列化/反序列化逻辑
+                            .serialize(PlayerShopData.MAP_CODEC)
+                            .copyOnDeath()
+                            .build()
             );
 }

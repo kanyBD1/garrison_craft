@@ -34,11 +34,6 @@ public class ShopList {
         System.out.println("[ShopList] 初始化完成，共注册 " + SHOP_POOLS.size() + " 个等级卡池");
     }
 
-    // registerPool 内部通过 BuiltInRegistries.ITEM.get(id) 动态获取物品并创建 ItemStack
-
-
-    // ... registerPool 方法不变 ...
-
 
     @SafeVarargs
     private static void registerPool(int level, Set<Item>... itemSets) {
