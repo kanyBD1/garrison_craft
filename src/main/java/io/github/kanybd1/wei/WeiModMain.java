@@ -4,8 +4,6 @@ import com.mojang.logging.LogUtils;
 import io.github.kanybd1.wei.bedwar.bagshop.ModItem;
 import io.github.kanybd1.wei.bedwar.bagshop.data.AttachmentShopData;
 import io.github.kanybd1.wei.bedwar.bagshop.manu.ShopMenu;
-import io.github.kanybd1.wei.bedwar.bagshop.network.PurchaseShopItemPacket;
-import io.github.kanybd1.wei.bedwar.bagshop.network.RefreshShopPacket;
 import io.github.kanybd1.wei.bedwar.bagshop.network.SyncShopDataPayload;
 import io.github.kanybd1.wei.covenant.CovenantManager;
 import io.github.kanybd1.wei.covenant.EffectRegister;
@@ -22,7 +20,6 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
@@ -35,6 +32,7 @@ public class WeiModMain {
     public static CovenantManager COVENANT_MANAGER = new CovenantManager();
     public static TeamManager TEAM_MANAGER = new TeamManager();
 
+    // ⭐ 物品和菜单都改为普通静态字段
     public static ModItem SHOP_OPENER;
     public static MenuType<ShopMenu> SHOP_MENU;
 
@@ -46,44 +44,40 @@ public class WeiModMain {
 
         modEventBus.addListener(this::registerPayloads);
         modEventBus.addListener(this::onRegisterItems);
-        modEventBus.addListener(this::onRegisterMenus);
+        modEventBus.addListener(this::onRegisterMenus); // ⭐ 新增菜单注册监听
     }
 
     private void registerPayloads(RegisterPayloadHandlersEvent event) {
         var registrar = event.registrar(MODID);
         registrar.playToClient(SyncTeamPacket.TYPE, SyncTeamPacket.STREAM_CODEC, SyncTeamPacket::handle);
         registrar.playToClient(SyncShopDataPayload.TYPE, SyncShopDataPayload.STREAM_CODEC, SyncShopDataPayload::handle);
-        registrar.playToServer(PurchaseShopItemPacket.TYPE, PurchaseShopItemPacket.STREAM_CODEC,PurchaseShopItemPacket::handle);
-        registrar.playToClient(RefreshShopPacket.TYPE, RefreshShopPacket.STREAM_CODEC, RefreshShopPacket::handle);
     }
 
     private void onRegisterItems(RegisterEvent event) {
         if (event.getRegistryKey().equals(Registries.ITEM)) {
             Identifier shopOpenerId = Identifier.fromNamespaceAndPath(MODID, "shop_opener");
 
+            // ⭐ setId 需要 ResourceKey<Item>
             ResourceKey<Item> shopOpenerKey = ResourceKey.create(Registries.ITEM, shopOpenerId);
 
             SHOP_OPENER = new ModItem(
                     new Item.Properties()
                             .stacksTo(1)
-                            .setId(shopOpenerKey)
+                            .setId(shopOpenerKey)  // ← ResourceKey<Item>
             );
 
-
+            // ⭐ event.register 第二个参数仍然是 Identifier！
             event.register(Registries.ITEM, shopOpenerId, () -> SHOP_OPENER);
         }
     }
 
+    // ⭐ 菜单注册：绕过 DeferredRegister，使用 RegisterEvent
     private void onRegisterMenus(RegisterEvent event) {
         if (event.getRegistryKey().equals(Registries.MENU)) {
             Identifier shopMenuId = Identifier.fromNamespaceAndPath(MODID, "shop_menu");
-
-
-            SHOP_MENU = IMenuTypeExtension.create((containerId, inventory, buf) ->
-                    new ShopMenu(containerId, inventory, null)
-            );
-
+            SHOP_MENU = new MenuType<>(ShopMenu::new, FeatureFlagSet.of());
             event.register(Registries.MENU, shopMenuId, () -> SHOP_MENU);
         }
     }
+
 }
