@@ -8,26 +8,33 @@ import java.util.*;
 import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.*;
 
 public class ShopList {
-    public static final Map<Integer, List<ItemStack>> SHOP_POOLS = new TreeMap<>();
+    private static final Map<Integer, List<ItemStack>> SHOP_POOLS = new TreeMap<>();
+    private static volatile boolean initialized = false; // ✅ 必须用 volatile 防止多线程可见性问题
 
-    private static boolean initialized = false;
 
-    private static synchronized void ensureInitialized() {
+    public static List<ItemStack> getPoolForLevel(int level) {
         if (!initialized) {
-            init();
-            initialized = true;
+            synchronized (SHOP_POOLS) {
+                if (!initialized) { // ✅ 双重检查锁定
+                    System.out.println("[ShopList] 首次访问，开始延迟初始化...");
+                    init();
+                    initialized = true;
+                }
+            }
         }
+        return SHOP_POOLS.getOrDefault(level, Collections.emptyList());
     }
 
-    // 原有的 init() 和 registerPool() 保持不变
-    public static void init() {
+    private static void init() {
         SHOP_POOLS.clear();
+
         registerPool(1, FORTRESS_COVENANT_ITEMS, FOREST_COVENANT_ITEMS);
         registerPool(2, MINER_COVENANT_ITEMS, OCEAN_COVENANT_ITEMS);
         registerPool(3, END_COVENANT_ITEMS, KNOWLEDGE_COVENANT_ITEMS, PINPOINT_COVENANT_ITEMS);
+
+        System.out.println("[ShopList] 初始化完成，共注册 " + SHOP_POOLS.size() + " 个等级卡池");
     }
 
-    // ... registerPool 方法不变 ...
 
 
     @SafeVarargs
@@ -41,7 +48,16 @@ public class ShopList {
         SHOP_POOLS.put(level, Collections.unmodifiableList(pool));
     }
 
-    public static List<ItemStack> getPoolForLevel(int level) {
-        return SHOP_POOLS.getOrDefault(level, Collections.emptyList());
+    public static ItemStack getItemByIndex(int level, int index) {
+        List<ItemStack> pool = getPoolForLevel(level);
+        if (index >= 0 && index < pool.size()) {
+            return pool.get(index);
+        }
+        return ItemStack.EMPTY;
+    }
+
+
+    public static int getPoolSize(int level) {
+        return getPoolForLevel(level).size();
     }
 }

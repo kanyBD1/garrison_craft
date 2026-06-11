@@ -22,7 +22,7 @@ public class CovenantFortress extends MobEffect {
     }
 
     public static float damageReduction(float damage, int level){
-        return (1 - level / 999f * 0.8f) * damage;
+        return 1 - Math.max( (level / 999f * 0.4f) , 0.1f ) * damage;
     }
 
     public static void applyAbsorption(int value,Player player){ player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, value*200, value-2)); }

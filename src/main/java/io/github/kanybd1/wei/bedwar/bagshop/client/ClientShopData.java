@@ -4,12 +4,14 @@ import io.github.kanybd1.wei.bedwar.bagshop.data.PlayerShopData;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientShopData {
     // 初始化为默认值，防止NPE
-    private static PlayerShopData cachedData = new PlayerShopData(0,1, Set.of());
+    private static PlayerShopData cachedData = new PlayerShopData(0,1, Set.of(),new ArrayList<>(),new HashSet<>());
 
     public static void update(PlayerShopData data) {
         cachedData = data;
@@ -20,6 +22,6 @@ public class ClientShopData {
     }
 
     public static void clear() {
-        cachedData = new PlayerShopData(0,1,Set.of());
+        cachedData = new PlayerShopData(0,1,Set.of(),new ArrayList<>(),new HashSet<>());
     }
 }

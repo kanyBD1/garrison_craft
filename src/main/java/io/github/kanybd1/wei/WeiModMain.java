@@ -3,7 +3,11 @@ package io.github.kanybd1.wei;
 import com.mojang.logging.LogUtils;
 import io.github.kanybd1.wei.bedwar.bagshop.ModItem;
 import io.github.kanybd1.wei.bedwar.bagshop.data.AttachmentShopData;
+import io.github.kanybd1.wei.bedwar.bagshop.data.ShopList;
 import io.github.kanybd1.wei.bedwar.bagshop.manu.ShopMenu;
+import io.github.kanybd1.wei.bedwar.bagshop.network.LevelUpPayload;
+import io.github.kanybd1.wei.bedwar.bagshop.network.PurchaseItemPayload;
+import io.github.kanybd1.wei.bedwar.bagshop.network.RefreshShopPayload;
 import io.github.kanybd1.wei.bedwar.bagshop.network.SyncShopDataPayload;
 import io.github.kanybd1.wei.covenant.CovenantManager;
 import io.github.kanybd1.wei.covenant.EffectRegister;
@@ -32,7 +36,6 @@ public class WeiModMain {
     public static CovenantManager COVENANT_MANAGER = new CovenantManager();
     public static TeamManager TEAM_MANAGER = new TeamManager();
 
-    // ⭐ 物品和菜单都改为普通静态字段
     public static ModItem SHOP_OPENER;
     public static MenuType<ShopMenu> SHOP_MENU;
 
@@ -44,20 +47,22 @@ public class WeiModMain {
 
         modEventBus.addListener(this::registerPayloads);
         modEventBus.addListener(this::onRegisterItems);
-        modEventBus.addListener(this::onRegisterMenus); // ⭐ 新增菜单注册监听
+        modEventBus.addListener(this::onRegisterMenus);
     }
 
     private void registerPayloads(RegisterPayloadHandlersEvent event) {
         var registrar = event.registrar(MODID);
         registrar.playToClient(SyncTeamPacket.TYPE, SyncTeamPacket.STREAM_CODEC, SyncTeamPacket::handle);
         registrar.playToClient(SyncShopDataPayload.TYPE, SyncShopDataPayload.STREAM_CODEC, SyncShopDataPayload::handle);
+        registrar.playToServer(PurchaseItemPayload.TYPE, PurchaseItemPayload.STREAM_CODEC, PurchaseItemPayload::handle);
+        registrar.playToServer(RefreshShopPayload.TYPE, RefreshShopPayload.STREAM_CODEC,RefreshShopPayload::handle);
+        registrar.playToServer(LevelUpPayload.TYPE, LevelUpPayload.STREAM_CODEC,LevelUpPayload::handle);
     }
 
     private void onRegisterItems(RegisterEvent event) {
         if (event.getRegistryKey().equals(Registries.ITEM)) {
             Identifier shopOpenerId = Identifier.fromNamespaceAndPath(MODID, "shop_opener");
 
-            // ⭐ setId 需要 ResourceKey<Item>
             ResourceKey<Item> shopOpenerKey = ResourceKey.create(Registries.ITEM, shopOpenerId);
 
             SHOP_OPENER = new ModItem(
@@ -65,13 +70,10 @@ public class WeiModMain {
                             .stacksTo(1)
                             .setId(shopOpenerKey)  // ← ResourceKey<Item>
             );
-
-            // ⭐ event.register 第二个参数仍然是 Identifier！
             event.register(Registries.ITEM, shopOpenerId, () -> SHOP_OPENER);
         }
     }
 
-    // ⭐ 菜单注册：绕过 DeferredRegister，使用 RegisterEvent
     private void onRegisterMenus(RegisterEvent event) {
         if (event.getRegistryKey().equals(Registries.MENU)) {
             Identifier shopMenuId = Identifier.fromNamespaceAndPath(MODID, "shop_menu");
