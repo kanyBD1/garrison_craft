@@ -10,7 +10,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 public class ShopMenu extends AbstractContainerMenu {
-    // 仅服务端持有，客户端为 null
+
     private final PlayerShopData serverShopData;
     private static final SimpleContainer EMPTY_CONTAINER = new SimpleContainer(27);
 

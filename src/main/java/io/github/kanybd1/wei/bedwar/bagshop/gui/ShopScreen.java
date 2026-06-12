@@ -32,25 +32,25 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
 
     private static final int SLOT_SIZE = 18;
 
-    // 刷新按钮配置
+
     private static final int REFRESH_SLOT_INDEX = 19;
     private static final int REFRESH_BUTTON_X_OFFSET = 8 + (REFRESH_SLOT_INDEX % 9) * SLOT_SIZE;
     private static final int REFRESH_BUTTON_Y_OFFSET = 18 + (REFRESH_SLOT_INDEX / 9) * SLOT_SIZE;
     private static final ItemStack REFRESH_ICON = new ItemStack(Items.CHEST);
 
-    // 【新增】升级按钮配置（刷新按钮右侧第3个，即索引 22）
+
     private static final int LEVEL_UP_SLOT_INDEX = 22;
     private static final int LEVEL_UP_BUTTON_X_OFFSET = 8 + (LEVEL_UP_SLOT_INDEX % 9) * SLOT_SIZE;
     private static final int LEVEL_UP_BUTTON_Y_OFFSET = 18 + (LEVEL_UP_SLOT_INDEX / 9) * SLOT_SIZE;
     private static final ItemStack LEVEL_UP_ICON = new ItemStack(Items.SLIME_BALL);
 
-    // 商品展示区域配置（中间行）
+
     private static final int SHOP_ROW_START_SLOT = 9;
     private static final int SHOP_ROW_MAX_SLOTS = 9;
 
     private List<ItemStack> displayedItems = Collections.emptyList();
 
-    // 【新增】记录已被购买的商品索引，防止重绘时再次显示
+
     private final Set<Integer> purchasedIndices = new HashSet<>();
 
     public ShopScreen(ShopMenu menu, Inventory playerInventory, Component title) {
@@ -72,7 +72,6 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
     private void refreshDisplayedItems() {
         PlayerShopData data = ClientShopData.get();
 
-        // 【核心修改】：直接使用服务端同步过来的商品列表，不再客户端随机！
         List<ItemStack> serverItems = (data != null) ? data.currentShopItems() : Collections.emptyList();
 
         if (serverItems.isEmpty()) {
@@ -80,7 +79,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
             return;
         }
 
-        // 最多显示 9 个
+
         int count = Math.min(serverItems.size(), MAX_DISPLAY_COUNT);
         this.displayedItems = new ArrayList<>(serverItems.subList(0, count));
 
@@ -92,7 +91,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
 
     @Override
     public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        // 绘制背景
+
         graphics.blit(
                 RenderPipelines.GUI_TEXTURED,
                 SHOP_BACKGROUND,
@@ -102,7 +101,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
                 256, 256
         );
 
-        // 绘制商品（跳过已购买的）
+
         for (int i = 0; i < Math.min(this.displayedItems.size(), SHOP_ROW_MAX_SLOTS); i++) {
 
             if (purchasedIndices.contains(i)) continue;
@@ -121,25 +120,64 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
             graphics.itemDecorations(this.font, stack, x, y);
         }
 
-        // 绘制刷新按钮
+
         int refreshX = this.leftPos + REFRESH_BUTTON_X_OFFSET;
         int refreshY = this.topPos + REFRESH_BUTTON_Y_OFFSET;
         graphics.item(REFRESH_ICON, refreshX, refreshY);
         graphics.itemDecorations(this.font, REFRESH_ICON, refreshX, refreshY);
 
-        // 【新增】绘制升级按钮
+
         int levelUpX = this.leftPos + LEVEL_UP_BUTTON_X_OFFSET;
         int levelUpY = this.topPos + LEVEL_UP_BUTTON_Y_OFFSET;
         graphics.item(LEVEL_UP_ICON, levelUpX, levelUpY);
         graphics.itemDecorations(this.font, LEVEL_UP_ICON, levelUpX, levelUpY);
 
         super.extractContents(graphics, mouseX, mouseY, partialTick);
+
+        for (int i = 0; i < Math.min(this.displayedItems.size(), SHOP_ROW_MAX_SLOTS); i++) {
+            if (purchasedIndices.contains(i)) continue;
+
+            int slotIndex = SHOP_ROW_START_SLOT + i;
+            int column = slotIndex % 9;
+            int row = slotIndex / 9;
+            int x = this.leftPos + 8 + column * SLOT_SIZE;
+            int y = this.topPos + 18 + row * SLOT_SIZE;
+
+            if (mouseX >= x && mouseX < x + 16 && mouseY >= y && mouseY < y + 16) {
+                ItemStack stack = this.displayedItems.get(i);
+                if (!stack.isEmpty()) {
+                    graphics.setTooltipForNextFrame(this.font, stack, mouseX, mouseY);
+                }
+                return;
+            }
+        }
+
+        int refreshX1 = this.leftPos + REFRESH_BUTTON_X_OFFSET;
+        int refreshY1 = this.topPos + REFRESH_BUTTON_Y_OFFSET;
+        if (isMouseOver(mouseX, mouseY, refreshX1, refreshY1)) {
+            List<Component> tips = List.of(
+                    Component.literal("§e点击刷新商店"),
+                    Component.literal("§7花费一定资源重新生成商品")
+            );
+            graphics.setComponentTooltipForNextFrame(this.font, tips, mouseX, mouseY);
+            return;
+        }
+
+        int levelUpX1 = this.leftPos + LEVEL_UP_BUTTON_X_OFFSET;
+        int levelUpY1 = this.topPos + LEVEL_UP_BUTTON_Y_OFFSET;
+        if (isMouseOver(mouseX, mouseY, levelUpX1, levelUpY1)) {
+            List<Component> tips = List.of(
+                    Component.literal("§a商店升级"),
+                    Component.literal("§7提升商店等级以解锁更多商品")
+            );
+            graphics.setComponentTooltipForNextFrame(this.font, tips, mouseX, mouseY);
+        }
     }
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        if (event.button() == 0) { // 仅处理左键
-            // 1. 检测刷新按钮点击
+        if (event.button() == 0) {
+
             int refreshX = this.leftPos + REFRESH_BUTTON_X_OFFSET;
             int refreshY = this.topPos + REFRESH_BUTTON_Y_OFFSET;
             if (isMouseOver(event.x(), event.y(), refreshX, refreshY)) {
@@ -147,17 +185,17 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
                 return true;
             }
 
-            // 2. 【新增】检测升级按钮点击
+
             int levelUpX = this.leftPos + LEVEL_UP_BUTTON_X_OFFSET;
             int levelUpY = this.topPos + LEVEL_UP_BUTTON_Y_OFFSET;
             if (isMouseOver(event.x(), event.y(), levelUpX, levelUpY)) {
-                sendToServer(new LevelUpPayload()); // 发送升级包给服务端
+                sendToServer(new LevelUpPayload());
                 return true;
             }
 
-            // 3. 检测商品点击购买
+
             for (int i = 0; i < Math.min(this.displayedItems.size(), SHOP_ROW_MAX_SLOTS); i++) {
-                if (purchasedIndices.contains(i)) continue; // 已购买的不可再次点击
+                if (purchasedIndices.contains(i)) continue;
 
                 int slotIndex = SHOP_ROW_START_SLOT + i;
                 int column = slotIndex % 9;
@@ -168,7 +206,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
 
                 if (isMouseOver(event.x(), event.y(), itemX, itemY)) {
                     handlePurchase(i);
-                    return true; // 消费事件
+                    return true;
                 }
             }
         }

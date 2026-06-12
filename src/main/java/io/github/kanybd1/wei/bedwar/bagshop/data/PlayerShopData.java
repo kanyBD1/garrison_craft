@@ -16,7 +16,7 @@ public record PlayerShopData(int balance,
                              List<ItemStack> currentShopItems,
                              Set<Integer> purchasedIndices) {
 
-    // 1. 修改 Codec，增加 currentShopItems 的序列化
+
     private static final Codec<Set<ItemStack>> ITEM_SET_CODEC =
             ItemStack.CODEC.listOf().xmap(HashSet::new, ArrayList::new);
 
@@ -38,7 +38,7 @@ public record PlayerShopData(int balance,
 
     public static final Codec<PlayerShopData> CODEC = MAP_CODEC.codec();
 
-    // 2. 提供业务方法
+
     public PlayerShopData addBalance(int amount) {
         return new PlayerShopData(this.balance + amount, this.level, this.unlockedItems, this.currentShopItems, this.purchasedIndices);
     }

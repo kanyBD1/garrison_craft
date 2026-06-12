@@ -14,6 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
+import static io.github.kanybd1.wei.bedwar.bagshop.data.ShopList.getShopLevel;
+
 public record PurchaseItemPayload(int itemIndex) implements CustomPacketPayload {
     public static final Type<PurchaseItemPayload> TYPE =
             new Type<>(Identifier.fromNamespaceAndPath(WeiModMain.MODID, "purchase_item"));
@@ -35,30 +37,28 @@ public record PurchaseItemPayload(int itemIndex) implements CustomPacketPayload 
 
             PlayerShopData currentData = serverPlayer.getData(AttachmentShopData.PLAYER_SHOP_DATA);
 
-            // 1. 从服务端保存的列表中获取商品
             if (payload.itemIndex() < 0 || payload.itemIndex() >= currentData.currentShopItems().size()) {
                 serverPlayer.sendSystemMessage(Component.literal("无效的商品索引！"));
                 return;
             }
 
             ItemStack itemToBuy = currentData.currentShopItems().get(payload.itemIndex());
-            int price = 1;
+            int price = getShopLevel(itemToBuy);
 
-            // 2. 检查余额
             if (currentData.balance() >= price) {
-                // 3. 扣钱
+
                 PlayerShopData newData = currentData.addBalance(-price).addPurchasedIndex(payload.itemIndex());
                 serverPlayer.setData(AttachmentShopData.PLAYER_SHOP_DATA, newData);
 
-// 然后同步给客户端：
+
                 PacketDistributor.sendToPlayer(serverPlayer, new SyncShopDataPayload(newData));
 
-                // 4. 发物品
+
                 if (!serverPlayer.getInventory().add(itemToBuy.copy())) {
-                    serverPlayer.drop(itemToBuy.copy(), false); // 背包满掉地上
+                    serverPlayer.drop(itemToBuy.copy(), false);
                 }
 
-                // 5. 同步余额给客户端
+
                 PacketDistributor.sendToPlayer(serverPlayer, new SyncShopDataPayload(newData));
             } else {
                 serverPlayer.sendSystemMessage(Component.literal("余额不足！"));

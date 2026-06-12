@@ -10,7 +10,7 @@ import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientShopData {
-    // 初始化为默认值，防止NPE
+
     private static PlayerShopData cachedData = new PlayerShopData(0,1, Set.of(),new ArrayList<>(),new HashSet<>());
 
     public static void update(PlayerShopData data) {

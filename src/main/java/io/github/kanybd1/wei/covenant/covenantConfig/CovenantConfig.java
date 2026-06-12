@@ -3,6 +3,7 @@ package io.github.kanybd1.wei.covenant.covenantConfig;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.util.Set;
@@ -11,6 +12,9 @@ public class CovenantConfig {
     public static Set<Item> FORTRESS_COVENANT_ITEMS = Set.of(
             Items.STONE_AXE,
             Items.STONE_SWORD,
+
+            Items.IRON_AXE,
+            Items.IRON_SWORD,
 
             Items.CHAINMAIL_HELMET,
             Items.CHAINMAIL_CHESTPLATE,
@@ -39,9 +43,7 @@ public class CovenantConfig {
             Items.DIAMOND_PICKAXE,
             Items.TNT,
             Items.NETHERITE_PICKAXE,
-            Items.WATER_BUCKET,
-            Items.LAVA_BUCKET,
-            Items.BUCKET
+            Items.WATER_BUCKET
     );
 
     public static Set<Item> OCEAN_COVENANT_ITEMS = Set.of(
@@ -56,7 +58,8 @@ public class CovenantConfig {
 
     public static Set<Item> KNOWLEDGE_COVENANT_ITEMS = Set.of(
             Items.BOOK,
-            Items.WRITABLE_BOOK
+            Items.WRITABLE_BOOK,
+            Items.EXPERIENCE_BOTTLE
     );
 
     public static final Set<Item> FOREST_COVENANT_ITEMS = Set.of(
@@ -80,6 +83,32 @@ public class CovenantConfig {
             Items.FIRE_CHARGE,
             Items.EGG
     );
+
+    public static String getCovenantName(ItemStack itemStack) {
+        Item item = itemStack.getItem();
+        if (PINPOINT_COVENANT_ITEMS.contains(item)) {
+            return "精准";
+        }
+        if (FOREST_COVENANT_ITEMS.contains(item)) {
+            return "丛林";
+        }
+        if (KNOWLEDGE_COVENANT_ITEMS.contains(item)) {
+            return "智识";
+        }
+        if (OCEAN_COVENANT_ITEMS.contains(item)) {
+            return "海洋";
+        }
+        if (MINER_COVENANT_ITEMS.contains(item)) {
+            return "矿工";
+        }
+        if (END_COVENANT_ITEMS.contains(item)) {
+            return "末地";
+        }
+        if (FORTRESS_COVENANT_ITEMS.contains(item)) {
+            return "坚守";
+        }
+        return " ";
+    }
 
 
 
