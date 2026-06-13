@@ -1,4 +1,4 @@
-package io.github.kanybd1.wei.party1;
+package io.github.kanybd1.wei.party;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;

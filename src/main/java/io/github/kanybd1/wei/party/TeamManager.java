@@ -1,4 +1,4 @@
-package io.github.kanybd1.wei.party1;
+package io.github.kanybd1.wei.party;
 
 import io.github.kanybd1.wei.network.SyncTeamPacket;
 import net.minecraft.network.chat.Component;
