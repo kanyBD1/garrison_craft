@@ -19,24 +19,21 @@ public class TeamManager {
 
     public void syncTeamToPlayer(ServerPlayer player) {
         Optional<Team> teamOpt = getPlayerTeam(player);
-        if (teamOpt.isPresent()) {
-            Team team = teamOpt.get();
-            List<String> memberNames = new ArrayList<>();
-
-
-            for (UUID memberUuid : team.getMembers()) {
-                ServerPlayer member = player.level().getServer().getPlayerList().getPlayer(memberUuid);
-                if (member != null) {
-                    memberNames.add(member.getName().getString());
-                }
-            }
-
-
-            PacketDistributor.sendToPlayer(player, new SyncTeamPacket(team.getTeamName(), memberNames));
-        } else {
-
+        if (teamOpt.isEmpty()) {
             PacketDistributor.sendToPlayer(player, new SyncTeamPacket(null, Collections.emptyList()));
+            return;
         }
+        Team team = teamOpt.get();
+        List<String> memberNames = new ArrayList<>();
+
+        for (UUID memberUuid : team.getMembers()) {
+            ServerPlayer member = player.level().getServer().getPlayerList().getPlayer(memberUuid);
+            if (member != null) {
+                memberNames.add(member.getName().getString());
+            }
+        }
+
+        PacketDistributor.sendToPlayer(player, new SyncTeamPacket(team.getTeamName(), memberNames));
     }
 
     public Team createTeam(ServerPlayer ServerPlayer){
@@ -52,9 +49,10 @@ public class TeamManager {
 
     public Optional<Team> getPlayerTeam(ServerPlayer player){
         String teamId=playerTeamMap.get(player.getUUID());
-        if(teamId==null) {
+        if(Objects.isNull(teamId)) {
             return Optional.empty();
         }
+
         Team team=teams.get(teamId);
         return Optional.ofNullable(team);
     }
@@ -62,47 +60,51 @@ public class TeamManager {
     public Boolean addToTeam(ServerPlayer ServerPlayer,String teamName){
         UUID playerUUID=ServerPlayer.getUUID();
         Team team=teams.get(teamName);
-        if(team==null){
+        if(Objects.isNull(team)) {
             ServerPlayer.sendSystemMessage(Component.literal("队伍不存在: " +teamName));
             return false;
         }
 
         String playerTeamName=playerTeamMap.get(playerUUID);
 
-        if(playerTeamName!=null&&!playerTeamName.equals(teamName)){
-            removeFromTeam(ServerPlayer);
-        }
+        if (Objects.nonNull(playerTeamName)) {
+            if (playerTeamName.equals(teamName)) {
+                ServerPlayer.sendSystemMessage(Component.literal("已在此队伍："+teamName));
+                return true;
+            }
 
-        else if(playerTeamName!=null&&playerTeamName.equals(teamName)){
-            ServerPlayer.sendSystemMessage(Component.literal("已在此队伍："+teamName));
-            return true;
+            removeFromTeam(ServerPlayer);
         }
 
         boolean added = team.addMember(ServerPlayer);
 
-        if(added){
-            playerTeamMap.put(playerUUID,teamName);
-            ServerPlayer.sendSystemMessage(Component.literal("成功加入此队伍："+teamName));
-            syncTeamToPlayer(ServerPlayer);
-            return true;
+        if(!added){
+            return false;
         }
-        return false;
+
+        playerTeamMap.put(playerUUID,teamName);
+        ServerPlayer.sendSystemMessage(Component.literal("成功加入此队伍："+teamName));
+        syncTeamToPlayer(ServerPlayer);
+        return true;
     }
 
     public boolean removeFromTeam(ServerPlayer player){
         UUID playerUUID=player.getUUID();
         String currentTeamName = this.playerTeamMap.remove(playerUUID);
 
-        if(currentTeamName !=null){
-            Team team=teams.get(currentTeamName);
-            if(team!=null){
-                team.removeMember(player);
-                player.sendSystemMessage(Component.literal("成功退出队伍："+ currentTeamName));
-                syncTeamToPlayer(player);
-                return true;
-            }
+        if(Objects.isNull(currentTeamName)) {
+            return false;
         }
-        return false;
+
+        Team team=teams.get(currentTeamName);
+        if(Objects.isNull(team)){
+            return false;
+        }
+
+        team.removeMember(player);
+        player.sendSystemMessage(Component.literal("成功退出队伍："+ currentTeamName));
+        syncTeamToPlayer(player);
+        return true;
     }
 
     public Set<String> getTeamNames(){

@@ -22,14 +22,18 @@ public class CovenantPinpoint extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
 
-    public static void giveNausea(int level,Player player){player.addEffect(new MobEffectInstance(MobEffects.NAUSEA,100+(level*40/999)));}
+    public static void giveNausea(int level, Player player) {
+        player.addEffect(new MobEffectInstance(MobEffects.NAUSEA, 100 + (level * 40 / 999)));
+    }
 
-    public static void ActiveCovenantPinpoint(PlayerTickEvent.Post event){
+    public static void ActiveCovenantPinpoint(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
         if (player.level().isClientSide()) {
             return;
         }
         int totalValue = 0;
+
+        // XXX: opt... but how? never mine. maybe next and next time.
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
             if (!stack.isEmpty() && PINPOINT_COVENANT_ITEMS.contains(stack.getItem())) {
@@ -38,21 +42,22 @@ public class CovenantPinpoint extends MobEffect {
         }
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.getInventory().getItem(i);
-            if (!itemStack.isEmpty()&&PINPOINT_COVENANT_ITEMS.contains(itemStack.getItem())) {
+            if (!itemStack.isEmpty() && PINPOINT_COVENANT_ITEMS.contains(itemStack.getItem())) {
                 totalValue += PINPOINT_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-        if (totalValue > 2) {
-            if(!player.hasEffect(EffectRegister.COVENANT_PINPOINT)){
-                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"pinpoint");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_PINPOINT, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_PINPOINT)));
-            }
+
+        if (player.hasEffect(EffectRegister.COVENANT_PINPOINT)) {
+            WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "pinpoint");
+            player.removeEffect(EffectRegister.COVENANT_PINPOINT);
+            return;
         }
-        else{
-            if(player.hasEffect(EffectRegister.COVENANT_PINPOINT)) {
-                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(),"pinpoint");
-                player.removeEffect(EffectRegister.COVENANT_PINPOINT);
-            }
+
+        if (totalValue <= 2) {
+            return;
         }
+
+        WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "pinpoint");
+        player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_PINPOINT, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_PINPOINT)));
     }
 }

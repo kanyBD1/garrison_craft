@@ -15,27 +15,28 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.KNOWLEDGE_COVENANT_ITEMS;
 import static io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig.KNOWLEDGE_COVENANT_ITEM_VALUE;
 
-public class CovenantKnowledge extends MobEffect{
+public class CovenantKnowledge extends MobEffect {
     public CovenantKnowledge() {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
 
-    public static void giveExperience(Player player, int amount){player.giveExperiencePoints(amount/10);}
+    public static void giveExperience(Player player, int amount) {
+        player.giveExperiencePoints(amount / 10);
+    }
 
-    public static float experienceBlock(Player player,float damage){
+    public static float experienceBlock(Player player, float damage) {
         int experienceLevel = player.experienceLevel;
-        if(experienceLevel > damage){
-            player.giveExperienceLevels((int)-damage);
+        if (experienceLevel > damage) {
+            player.giveExperienceLevels((int) -damage);
             return 0;
-        }
-        else if(experienceLevel <= damage){
+        } else if (experienceLevel <= damage) {
             player.giveExperienceLevels(-experienceLevel);
-            return damage-experienceLevel;
+            return damage - experienceLevel;
         }
         return 0;
     }
 
-    public static void ActiveCovenantKnowledge(PlayerTickEvent.Post event){
+    public static void ActiveCovenantKnowledge(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
         if (player.level().isClientSide()) {
             return;
@@ -49,22 +50,23 @@ public class CovenantKnowledge extends MobEffect{
         }
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.getInventory().getItem(i);
-            if (!itemStack.isEmpty()&&KNOWLEDGE_COVENANT_ITEMS.contains(itemStack.getItem())) {
+            if (!itemStack.isEmpty() && KNOWLEDGE_COVENANT_ITEMS.contains(itemStack.getItem())) {
                 totalValue += KNOWLEDGE_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-        if (totalValue > 1) {
-            if(!player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)){
-                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Knowledge");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_KNOWLEDGE)));
-            }
+
+        if (player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)) {
+            WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "Knowledge");
+            player.removeEffect(EffectRegister.COVENANT_KNOWLEDGE);
+            return;
         }
-        else{
-            if(player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)) {
-                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(),"Knowledge");
-                player.removeEffect(EffectRegister.COVENANT_KNOWLEDGE);
-            }
+
+        if (totalValue <= 1) {
+            return;
+
         }
+        WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "Knowledge");
+        player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_KNOWLEDGE)));
     }
 }
 

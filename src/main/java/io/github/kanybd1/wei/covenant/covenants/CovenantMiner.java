@@ -21,9 +21,11 @@ public class CovenantMiner extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
 
-    public static void applyHaste(Player player,int amount) {player.addEffect(new MobEffectInstance(MobEffects.HASTE, 200,amount/100));}
+    public static void applyHaste(Player player, int amount) {
+        player.addEffect(new MobEffectInstance(MobEffects.HASTE, 200, amount / 100));
+    }
 
-    public static void ActiveCovenantMiner(PlayerTickEvent.Post event){
+    public static void ActiveCovenantMiner(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
         if (player.level().isClientSide()) {
             return;
@@ -37,21 +39,22 @@ public class CovenantMiner extends MobEffect {
         }
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.getInventory().getItem(i);
-            if (!itemStack.isEmpty()&&MINER_COVENANT_ITEMS.contains(itemStack.getItem())) {
+            if (!itemStack.isEmpty() && MINER_COVENANT_ITEMS.contains(itemStack.getItem())) {
                 totalValue += MINER_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-        if (totalValue > 1) {
-            if(!player.hasEffect(EffectRegister.COVENANT_MINER)){
-                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Miner");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_MINER, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_MINER)));
-            }
+
+        if (player.hasEffect(EffectRegister.COVENANT_MINER)) {
+            WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "Miner");
+            player.removeEffect(EffectRegister.COVENANT_MINER);
+            return;
         }
-        else{
-            if(player.hasEffect(EffectRegister.COVENANT_MINER)) {
-                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(),"Miner");
-                player.removeEffect(EffectRegister.COVENANT_MINER);
-            }
+
+        if (totalValue <= 1) {
+            return;
         }
+
+        WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "Miner");
+        player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_MINER, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_MINER)));
     }
 }

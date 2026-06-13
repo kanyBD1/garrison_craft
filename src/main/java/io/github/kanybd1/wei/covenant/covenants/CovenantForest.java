@@ -1,5 +1,6 @@
 package io.github.kanybd1.wei.covenant.covenants;
 
+import io.github.kanybd1.wei.WeiModClient;
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
 import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
@@ -22,11 +23,15 @@ public class CovenantForest extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
 
-    public static float addDamage(int level){return (level/250f+1);}
+    public static float addDamage(int level) {
+        return (level / 250f + 1);
+    }
 
-    public static void applyJump(Player player) {player.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 200, 0));}
+    public static void applyJump(Player player) {
+        player.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 200, 0));
+    }
 
-    public static void ActiveCovenantForest(PlayerTickEvent.Post event){
+    public static void ActiveCovenantForest(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
         if (player.level().isClientSide()) {
             return;
@@ -40,21 +45,22 @@ public class CovenantForest extends MobEffect {
         }
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.getInventory().getItem(i);
-            if (!itemStack.isEmpty()&&FOREST_COVENANT_ITEMS.contains(itemStack.getItem())) {
+            if (!itemStack.isEmpty() && FOREST_COVENANT_ITEMS.contains(itemStack.getItem())) {
                 totalValue += FOREST_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-        if (totalValue > 1) {
-            if(!player.hasEffect(EffectRegister.COVENANT_FOREST)){
-                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"forest");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FOREST, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_FOREST)));
-            }
+
+        if (player.hasEffect(EffectRegister.COVENANT_FOREST)) {
+            WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "forest");
+            player.removeEffect(EffectRegister.COVENANT_FOREST);
+            return;
         }
-        else{
-            if(player.hasEffect(EffectRegister.COVENANT_FOREST)) {
-                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(),"forest");
-                player.removeEffect(EffectRegister.COVENANT_FOREST);
-            }
+
+        if (totalValue <= 1) {
+            return;
         }
+
+        WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "forest");
+        player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FOREST, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_FOREST)));
     }
 }

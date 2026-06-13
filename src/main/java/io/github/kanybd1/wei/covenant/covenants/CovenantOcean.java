@@ -21,9 +21,12 @@ public class CovenantOcean extends MobEffect {
     public CovenantOcean() {
         super(MobEffectCategory.BENEFICIAL, 0xFFFFFFFF);
     }
-    public static void applyDolphinsGrace(Player player) {player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100, 0));}
 
-    public static void ActiveCovenantOcean(PlayerTickEvent.Post event){
+    public static void applyDolphinsGrace(Player player) {
+        player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100, 0));
+    }
+
+    public static void ActiveCovenantOcean(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
         if (player.level().isClientSide()) {
             return;
@@ -37,21 +40,22 @@ public class CovenantOcean extends MobEffect {
         }
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.getInventory().getItem(i);
-            if (!itemStack.isEmpty()&&OCEAN_COVENANT_ITEMS.contains(itemStack.getItem())) {
+            if (!itemStack.isEmpty() && OCEAN_COVENANT_ITEMS.contains(itemStack.getItem())) {
                 totalValue += OCEAN_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-        if (totalValue > 1) {
-            if(!player.hasEffect(EffectRegister.COVENANT_OCEAN)){
-                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Ocean");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_OCEAN, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_OCEAN)));
-            }
+
+        if (player.hasEffect(EffectRegister.COVENANT_OCEAN)) {
+            WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "Ocean");
+            player.removeEffect(EffectRegister.COVENANT_OCEAN);
+            return;
         }
-        else{
-            if(player.hasEffect(EffectRegister.COVENANT_OCEAN)) {
-                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(),"Ocean");
-                player.removeEffect(EffectRegister.COVENANT_OCEAN);
-            }
+
+        if (totalValue <= 1) {
+            return;
         }
+
+        WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "Ocean");
+        player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_OCEAN, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_OCEAN)));
     }
 }

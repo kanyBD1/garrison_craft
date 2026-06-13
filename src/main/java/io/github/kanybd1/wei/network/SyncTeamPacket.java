@@ -43,15 +43,4 @@ public class SyncTeamPacket implements CustomPacketPayload {
     // Getter 方法（供 StreamCodec 提取数据）
     public String teamName() { return teamName; }
     public List<String> members() { return members; }
-
-    // 4. 客户端处理逻辑
-    public void handle(IPayloadContext context) {
-        context.enqueueWork(() -> {
-            if (this.teamName == null || this.teamName.isEmpty()) {
-                ClientTeamData.INSTANCE.clearTeam();
-            } else {
-                ClientTeamData.INSTANCE.updateTeam(this.teamName, this.members);
-            }
-        });
-    }
 }
