@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/io/github/kanybd1/wei/team/TeamManager.java
 package io.github.kanybd1.wei.team;
-========
-package io.github.kanybd1.wei.party;
->>>>>>>> 06705d23469cda40ba19c583d369db0931e7db20:src/main/java/io/github/kanybd1/wei/party/TeamManager.java
 
 import io.github.kanybd1.wei.team.network.SyncTeamPacket;
 import net.minecraft.network.chat.Component;
