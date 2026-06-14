@@ -3,7 +3,6 @@ package io.github.kanybd1.wei.bedwar.bagshop.network;
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.bedwar.bagshop.data.AttachmentShopData;
 import io.github.kanybd1.wei.bedwar.bagshop.data.PlayerShopData;
-import io.github.kanybd1.wei.bedwar.bagshop.data.ShopList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -12,7 +11,6 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -45,18 +43,12 @@ public record PurchaseItemPayload(int itemIndex) implements CustomPacketPayload 
             }
 
             ItemStack itemToBuy = currentData.currentShopItems().get(payload.itemIndex());
-
             int price = getShopLevel(itemToBuy);
-            ItemStack arrow = new ItemStack(Items.ARROW,8);
-
 
             if (currentData.balance() >= price) {
-                if(ItemStack.isSameItem(itemToBuy,arrow)) {
-                    itemToBuy = arrow;
-                }
+
                 PlayerShopData newData = currentData.addBalance(-price).addPurchasedIndex(payload.itemIndex());
                 serverPlayer.setData(AttachmentShopData.PLAYER_SHOP_DATA, newData);
-
 
 
                 PacketDistributor.sendToPlayer(serverPlayer, new SyncShopDataPayload(newData));
