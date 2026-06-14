@@ -61,25 +61,36 @@ public class CovenantEffectManager {
 
     @SubscribeEvent
     public static void onPlayerTickMiner(PlayerTickEvent.Pre event) {
-        if (event.getEntity().level().isClientSide()) {return;}
+        if (event.getEntity().level().isClientSide()) {
+            return;
+        }
+
         Player player = event.getEntity();
         if (!player.hasEffect(EffectRegister.COVENANT_MINER)) {
             return;
         }
         final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_MINER);
-        if (effectCovenant == null) {return;}
+        if (effectCovenant == null) {
+            return;
+        }
+
         applyHaste(player,effectCovenant.getAmplifier());
     }
     @SubscribeEvent
     public static void onPlayerTickOcean(PlayerTickEvent.Pre event) {
-        if (event.getEntity().level().isClientSide()) {return;}
+        if (event.getEntity().level().isClientSide()) {
+            return;
+        }
         Player player = event.getEntity();
 
-        if (!player.hasEffect(EffectRegister.COVENANT_OCEAN)) {return;}
-
         final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_OCEAN);
-        if (effectCovenant == null) {return;}
-        if (player.isUnderWater()) {CovenantOcean.applyDolphinsGrace(player);}
+        if (Objects.isNull(effectCovenant)) {
+            return;
+        }
+
+        if (player.isUnderWater()) {
+            CovenantOcean.applyDolphinsGrace(player);
+        }
     }
     @SubscribeEvent
     public static void onPlayerLevelChange(PlayerXpEvent.LevelChange event) {

@@ -26,11 +26,12 @@ public class TeamGui implements GuiLayer {
 
     @Override
     public void render(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker) {
-        if (minecraft.player == null || minecraft.level == null) return;
-
         ClientTeamData teamData = ClientTeamData.INSTANCE;
+
         // 如果玩家不在队伍中，不渲染
-        if (!teamData.isInTeam()) return;
+        if (!teamData.isInTeam()) {
+            return;
+        }
 
         Font font = minecraft.font;
         List<String> members = teamData.getMemberNames();

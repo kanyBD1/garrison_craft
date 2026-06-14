@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:src/main/java/io/github/kanybd1/wei/team/TeamEvents.java
 package io.github.kanybd1.wei.team;
+========
+package io.github.kanybd1.wei.party;
+>>>>>>>> 06705d23469cda40ba19c583d369db0931e7db20:src/main/java/io/github/kanybd1/wei/party/TeamEvents.java
 
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
