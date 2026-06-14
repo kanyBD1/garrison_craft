@@ -30,21 +30,20 @@ public class WeiModClient {
     @SubscribeEvent
     static void onRegisterGuiLayers(RegisterGuiLayersEvent event) {
 
-        // 2. 将 covenant_hud 注册在【原版热栏】的下方
         event.registerBelow(
-                VanillaGuiLayers.HOTBAR, // 直接使用原版热栏作为基准
+                VanillaGuiLayers.HOTBAR,
                 Identifier.fromNamespaceAndPath(MODID, "covenant_hud"),
                 StackGui.INSTANCE
         );
 
-        // 3. 将 team_hud 注册在【原版热栏】的上方
+
         event.registerAbove(
-                VanillaGuiLayers.HOTBAR, // 直接使用原版热栏作为基准
+                VanillaGuiLayers.HOTBAR,
                 Identifier.fromNamespaceAndPath(MODID, "team_hud"),
                 TeamGui.INSTANCE
         );
 
-        // 4. 注册在最顶层的 GUI (这个不需要改)
+
         event.registerAboveAll(
                 Identifier.fromNamespaceAndPath(MODID, "balance_gui"),
                 BalanceGui.INSTANCE

@@ -3,7 +3,6 @@ package io.github.kanybd1.wei;
 import com.mojang.logging.LogUtils;
 import io.github.kanybd1.wei.bedwar.bagshop.ModItem;
 import io.github.kanybd1.wei.bedwar.bagshop.data.AttachmentShopData;
-import io.github.kanybd1.wei.bedwar.bagshop.data.ShopList;
 import io.github.kanybd1.wei.bedwar.bagshop.manu.ShopMenu;
 import io.github.kanybd1.wei.bedwar.bagshop.network.LevelUpPayload;
 import io.github.kanybd1.wei.bedwar.bagshop.network.PurchaseItemPayload;
@@ -81,5 +80,4 @@ public class WeiModMain {
             event.register(Registries.MENU, shopMenuId, () -> SHOP_MENU);
         }
     }
-
 }

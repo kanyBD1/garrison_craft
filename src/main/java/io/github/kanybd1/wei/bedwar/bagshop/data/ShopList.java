@@ -72,6 +72,7 @@ public class ShopList {
             Items.FISHING_ROD,
             Items.ARROW
     );
+
     private static final Set<Item> POOL_3 = Set.of(
             Items.APPLE,
             Items.COOKED_SALMON,
@@ -105,6 +106,7 @@ public class ShopList {
             Items.IRON_AXE,
             Items.IRON_SWORD
     );
+
     private static final Set<Item> POOL_4 = Set.of(
             Items.APPLE,
             Items.COOKED_SALMON,
@@ -143,6 +145,7 @@ public class ShopList {
             Items.GOLDEN_APPLE,
             Items.NETHERITE_PICKAXE
     );
+
     private static final Set<Item> POOL_5 = Set.of(
             Items.APPLE,
             Items.COOKED_SALMON,
