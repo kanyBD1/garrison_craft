@@ -2,8 +2,6 @@ package io.github.kanybd1.wei.covenant.covenants;
 
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
-import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
-import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -36,7 +34,7 @@ public class CovenantKnowledge extends MobEffect {
         return 0;
     }
 
-    public static void ActiveCovenantKnowledge(PlayerTickEvent.Post event) {
+    public static void ActiveCovenantKnowledge(PlayerTickEvent.Post event){
         Player player = event.getEntity();
         if (player.level().isClientSide()) {
             return;
@@ -50,23 +48,22 @@ public class CovenantKnowledge extends MobEffect {
         }
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = player.getInventory().getItem(i);
-            if (!itemStack.isEmpty() && KNOWLEDGE_COVENANT_ITEMS.contains(itemStack.getItem())) {
+            if (!itemStack.isEmpty()&&KNOWLEDGE_COVENANT_ITEMS.contains(itemStack.getItem())) {
                 totalValue += KNOWLEDGE_COVENANT_ITEM_VALUE.getInt(itemStack.getItem());
             }
         }
-
-        if (player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)) {
-            WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "Knowledge");
-            player.removeEffect(EffectRegister.COVENANT_KNOWLEDGE);
-            return;
+        if (totalValue > 1) {
+            if(!player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)){
+                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Knowledge");
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 1000, 1));
+            }
         }
-
-        if (totalValue <= 1) {
-            return;
-
+        else{
+            if(player.hasEffect(EffectRegister.COVENANT_KNOWLEDGE)) {
+                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(),"Knowledge");
+                player.removeEffect(EffectRegister.COVENANT_KNOWLEDGE);
+            }
         }
-        WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "Knowledge");
-        player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_KNOWLEDGE, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_KNOWLEDGE)));
     }
 }
 

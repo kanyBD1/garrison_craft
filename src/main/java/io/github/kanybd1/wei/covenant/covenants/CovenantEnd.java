@@ -2,8 +2,6 @@ package io.github.kanybd1.wei.covenant.covenants;
 
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
-import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
-import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -23,7 +21,7 @@ public class CovenantEnd extends MobEffect {
 
 
     public static void applySpeed(Player player, int amount) {
-        player.addEffect(new MobEffectInstance(MobEffects.SPEED, Math.max(amount, 100), amount / 100));
+        player.addEffect(new MobEffectInstance(MobEffects.SPEED, Math.max(amount, 100), Math.min(amount / 100,3)));
     }
 
     public static void applyInvisible(Player player, int amount) {
@@ -35,6 +33,7 @@ public class CovenantEnd extends MobEffect {
         if (player.level().isClientSide()) {
             return;
         }
+
         int totalValue = 0;
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
@@ -49,16 +48,21 @@ public class CovenantEnd extends MobEffect {
             }
         }
 
-        if (player.hasEffect(EffectRegister.COVENANT_END)) {
-            WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "End");
-            player.removeEffect(EffectRegister.COVENANT_END);
-            return;
+        if (totalValue > 1) {
+            if (!player.hasEffect(EffectRegister.COVENANT_END)) {
+                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "End");
+                player.addEffect(new MobEffectInstance(
+                    EffectRegister.COVENANT_END,
+                    1000,
+                    1
+                ));
+            }
+        } else {
+            if (player.hasEffect(EffectRegister.COVENANT_END)) {
+                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "End");
+                player.removeEffect(EffectRegister.COVENANT_END);
+            }
         }
-
-        if (totalValue <= 1) {
-            return;
-        }
-        WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "End");
-        player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_END, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_END)));
     }
+
 }

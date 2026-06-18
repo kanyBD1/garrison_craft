@@ -28,7 +28,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
     private static final int MAX_DISPLAY_COUNT = 9;
 
     private static final Identifier SHOP_BACKGROUND =
-            Identifier.withDefaultNamespace("textures/gui/container/generic_54.png");
+            Identifier.fromNamespaceAndPath("wei","textures/gui_container/generic_54.png");
 
     private static final int SLOT_SIZE = 18;
 
@@ -54,7 +54,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
     private final Set<Integer> purchasedIndices = new HashSet<>();
 
     public ShopScreen(ShopMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, title, 176, 134);
+        super(menu, playerInventory, title, 176, 132);
         this.titleLabelY = -100;
         this.inventoryLabelY = -100;
     }

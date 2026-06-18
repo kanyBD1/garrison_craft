@@ -118,7 +118,7 @@ public class CovenantEffectManager {
 
 
     @SubscribeEvent
-    public static void onPlayerTick_forest(PlayerTickEvent.Pre event) {
+    public static void onPlayerTickForest(PlayerTickEvent.Pre event) {
         Player player = event.getEntity();
         if (!player.hasEffect(EffectRegister.COVENANT_FOREST)) {
             return;
@@ -126,7 +126,7 @@ public class CovenantEffectManager {
         applyJump(player);
     }
     @SubscribeEvent
-    public static void onPlayerDamagePre_forest(ProjectileImpactEvent event) {
+    public static void onPlayerDamagePreForest(ProjectileImpactEvent event) {
         Projectile projectile = event.getProjectile();
         Entity owner = projectile.getOwner();
         if (!(owner instanceof Player player)) {return;}

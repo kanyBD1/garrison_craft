@@ -31,6 +31,7 @@ public class CovenantOcean extends MobEffect {
         if (player.level().isClientSide()) {
             return;
         }
+
         int totalValue = 0;
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
@@ -45,17 +46,20 @@ public class CovenantOcean extends MobEffect {
             }
         }
 
-        if (player.hasEffect(EffectRegister.COVENANT_OCEAN)) {
-            WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "Ocean");
-            player.removeEffect(EffectRegister.COVENANT_OCEAN);
-            return;
+        if (totalValue > 1) {
+            if (!player.hasEffect(EffectRegister.COVENANT_OCEAN)) {
+                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "End");
+                player.addEffect(new MobEffectInstance(
+                    EffectRegister.COVENANT_OCEAN,
+                    1000,
+                    1
+                ));
+            }
+        } else {
+            if (player.hasEffect(EffectRegister.COVENANT_OCEAN)) {
+                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "End");
+                player.removeEffect(EffectRegister.COVENANT_OCEAN);
+            }
         }
-
-        if (totalValue <= 1) {
-            return;
-        }
-
-        WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "Ocean");
-        player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_OCEAN, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_OCEAN)));
     }
 }

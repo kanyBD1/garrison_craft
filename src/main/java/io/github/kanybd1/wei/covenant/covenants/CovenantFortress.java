@@ -2,8 +2,6 @@ package io.github.kanybd1.wei.covenant.covenants;
 
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
-import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
-import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -48,7 +46,7 @@ public class CovenantFortress extends MobEffect {
         if (totalValue > 1) {
             if(!player.hasEffect(EffectRegister.COVENANT_FORTRESS)){
                 WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(),"Fortress");
-                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FORTRESS, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_FORTRESS)));
+                player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FORTRESS, 1000, 1));
             }
         }
         else{

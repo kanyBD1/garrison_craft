@@ -1,10 +1,7 @@
 package io.github.kanybd1.wei.covenant.covenants;
 
-import io.github.kanybd1.wei.WeiModClient;
 import io.github.kanybd1.wei.WeiModMain;
 import io.github.kanybd1.wei.covenant.EffectRegister;
-import io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType;
-import io.github.kanybd1.wei.covenant.covenantStacks.StacksHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -36,6 +33,7 @@ public class CovenantForest extends MobEffect {
         if (player.level().isClientSide()) {
             return;
         }
+
         int totalValue = 0;
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = player.getItemBySlot(slot);
@@ -50,17 +48,20 @@ public class CovenantForest extends MobEffect {
             }
         }
 
-        if (player.hasEffect(EffectRegister.COVENANT_FOREST)) {
-            WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "forest");
-            player.removeEffect(EffectRegister.COVENANT_FOREST);
-            return;
+        if (totalValue > 1) {
+            if (!player.hasEffect(EffectRegister.COVENANT_FOREST)) {
+                WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "Forest");
+                player.addEffect(new MobEffectInstance(
+                    EffectRegister.COVENANT_FOREST,
+                    1000,
+                    1
+                ));
+            }
+        } else {
+            if (player.hasEffect(EffectRegister.COVENANT_FOREST)) {
+                WeiModMain.COVENANT_MANAGER.removeCovenant(player.getUUID(), "Forest");
+                player.removeEffect(EffectRegister.COVENANT_FOREST);
+            }
         }
-
-        if (totalValue <= 1) {
-            return;
-        }
-
-        WeiModMain.COVENANT_MANAGER.activeCovenant(player.getUUID(), "forest");
-        player.addEffect(new MobEffectInstance(EffectRegister.COVENANT_FOREST, 1000, StacksHelper.getStack(player, StackAttachmentType.STACK_FOREST)));
     }
 }
