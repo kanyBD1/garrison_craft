@@ -2,10 +2,13 @@ package io.github.kanybd1.wei.bedwar.bagshop.gui;
 
 import io.github.kanybd1.wei.bedwar.bagshop.client.ClientShopData;
 import io.github.kanybd1.wei.bedwar.bagshop.data.PlayerShopData;
+import io.github.kanybd1.wei.bedwar.bagshop.data.ShopList;
 import io.github.kanybd1.wei.bedwar.bagshop.manu.ShopMenu;
 import io.github.kanybd1.wei.bedwar.bagshop.network.LevelUpPayload; // 【新增】导入升级包
 import io.github.kanybd1.wei.bedwar.bagshop.network.PurchaseItemPayload;
 import io.github.kanybd1.wei.bedwar.bagshop.network.RefreshShopPayload;
+import io.github.kanybd1.wei.covenant.covenantConfig.CovenantConfig;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -13,8 +16,10 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -33,16 +38,14 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
     private static final int SLOT_SIZE = 18;
 
 
-    private static final int REFRESH_SLOT_INDEX = 19;
+    private static final int REFRESH_SLOT_INDEX = 25;
     private static final int REFRESH_BUTTON_X_OFFSET = 8 + (REFRESH_SLOT_INDEX % 9) * SLOT_SIZE;
     private static final int REFRESH_BUTTON_Y_OFFSET = 18 + (REFRESH_SLOT_INDEX / 9) * SLOT_SIZE;
-    private static final ItemStack REFRESH_ICON = new ItemStack(Items.CHEST);
 
 
-    private static final int LEVEL_UP_SLOT_INDEX = 22;
+    private static final int LEVEL_UP_SLOT_INDEX = 26;
     private static final int LEVEL_UP_BUTTON_X_OFFSET = 8 + (LEVEL_UP_SLOT_INDEX % 9) * SLOT_SIZE;
     private static final int LEVEL_UP_BUTTON_Y_OFFSET = 18 + (LEVEL_UP_SLOT_INDEX / 9) * SLOT_SIZE;
-    private static final ItemStack LEVEL_UP_ICON = new ItemStack(Items.SLIME_BALL);
 
 
     private static final int SHOP_ROW_START_SLOT = 9;
@@ -120,18 +123,6 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
             graphics.itemDecorations(this.font, stack, x, y);
         }
 
-
-        int refreshX = this.leftPos + REFRESH_BUTTON_X_OFFSET;
-        int refreshY = this.topPos + REFRESH_BUTTON_Y_OFFSET;
-        graphics.item(REFRESH_ICON, refreshX, refreshY);
-        graphics.itemDecorations(this.font, REFRESH_ICON, refreshX, refreshY);
-
-
-        int levelUpX = this.leftPos + LEVEL_UP_BUTTON_X_OFFSET;
-        int levelUpY = this.topPos + LEVEL_UP_BUTTON_Y_OFFSET;
-        graphics.item(LEVEL_UP_ICON, levelUpX, levelUpY);
-        graphics.itemDecorations(this.font, LEVEL_UP_ICON, levelUpX, levelUpY);
-
         super.extractContents(graphics, mouseX, mouseY, partialTick);
 
         for (int i = 0; i < Math.min(this.displayedItems.size(), SHOP_ROW_MAX_SLOTS); i++) {
@@ -146,7 +137,26 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> {
             if (mouseX >= x && mouseX < x + 16 && mouseY >= y && mouseY < y + 16) {
                 ItemStack stack = this.displayedItems.get(i);
                 if (!stack.isEmpty()) {
-                    graphics.setTooltipForNextFrame(this.font, stack, mouseX, mouseY);
+
+                    List<Component> itemTips = stack.getTooltipLines(
+                        Item.TooltipContext.of(this.minecraft.level),
+                        this.minecraft.player,
+                        this.minecraft.options.advancedItemTooltips
+                            ? TooltipFlag.ADVANCED
+                            : TooltipFlag.NORMAL
+                    );
+
+                    itemTips.add(Component.literal("§7──────"));
+
+                    String covenantName = CovenantConfig.getCovenantName(stack);
+                    String prise = String.valueOf(ShopList.getShopLevel(stack));
+
+                    itemTips.add(Component.literal("§e盟约："+covenantName));
+                    itemTips.add(Component.literal("价格："+prise));
+
+
+                    graphics.setComponentTooltipForNextFrame(this.font, itemTips, mouseX, mouseY);
+
                 }
                 return;
             }
