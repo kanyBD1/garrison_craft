@@ -20,6 +20,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import java.util.Objects;
 
+import static io.github.kanybd1.wei.covenant.covenantStacks.StackAttachmentType.*;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantEnd.applySpeed;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantForest.applyJump;
 import static io.github.kanybd1.wei.covenant.covenants.CovenantKnowledge.giveExperience;
@@ -44,7 +45,7 @@ public class CovenantEffectManager {
         assert Objects.nonNull(effectCovenant);
 
         event.setNewDamage(Math.max(0,
-            CovenantFortress.damageReduction(event.getNewDamage(), effectCovenant.getAmplifier())));
+            CovenantFortress.damageReduction(event.getNewDamage(),StacksHelper.getStack(player,STACK_FORTRESS))));
     }
     @SubscribeEvent
     public static void onPlayerTeleport(EntityTeleportEvent event) {
@@ -56,7 +57,7 @@ public class CovenantEffectManager {
         }
         final MobEffectInstance effectCovenant = player.getEffect(EffectRegister.COVENANT_END);
         if (effectCovenant == null) {return;}
-        applySpeed(player,effectCovenant.getAmplifier());
+        applySpeed(player,StacksHelper.getStack(player,STACK_END));
     }
 
     @SubscribeEvent
@@ -74,7 +75,7 @@ public class CovenantEffectManager {
             return;
         }
 
-        applyHaste(player,effectCovenant.getAmplifier());
+        applyHaste(player,StacksHelper.getStack(player,STACK_MINER));
     }
     @SubscribeEvent
     public static void onPlayerTickOcean(PlayerTickEvent.Pre event) {
@@ -103,7 +104,7 @@ public class CovenantEffectManager {
         if (effectCovenant == null) {return;}
         try {
             isRewarding = true;
-            giveExperience(player,effectCovenant.getAmplifier());
+            giveExperience(player,StacksHelper.getStack(player,STACK_KNOWLEDGE));
         }finally {
             isRewarding = false;
         }
@@ -160,7 +161,7 @@ public class CovenantEffectManager {
         if (event.getRayTraceResult() instanceof EntityHitResult entityHitResult) {
             Entity hitEntity = entityHitResult.getEntity();
             if (hitEntity instanceof Player livingTarget) {
-                CovenantPinpoint.giveNausea(effectCovenant.getAmplifier(),livingTarget);
+                CovenantPinpoint.giveNausea(StacksHelper.getStack(player,STACK_PINPOINT),livingTarget);
             }
         }
     }

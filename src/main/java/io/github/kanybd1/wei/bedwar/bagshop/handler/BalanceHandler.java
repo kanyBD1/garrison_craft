@@ -24,6 +24,7 @@ public class BalanceHandler {
         if (!(killer instanceof ServerPlayer player)) {
             return;
         }
+
         if (player.level().isClientSide()) return;
 
         PlayerShopData currentData = player.getData(AttachmentShopData.PLAYER_SHOP_DATA);

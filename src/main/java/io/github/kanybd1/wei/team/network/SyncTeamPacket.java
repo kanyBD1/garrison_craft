@@ -28,7 +28,6 @@ public class SyncTeamPacket implements CustomPacketPayload {
     private final String teamName;
     private final List<String> members;
 
-    // 3. 提供全参构造方法（供 StreamCodec 调用）
     public SyncTeamPacket(String teamName, List<String> members) {
         this.teamName = teamName;
         this.members = members;
@@ -39,7 +38,6 @@ public class SyncTeamPacket implements CustomPacketPayload {
         return TYPE;
     }
 
-    // Getter 方法（供 StreamCodec 提取数据）
     public String teamName() { return teamName; }
     public List<String> members() { return members; }
 
